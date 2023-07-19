@@ -182,7 +182,7 @@ class ServiceRunner(dl.BaseServiceRunner):
     def insert_project_link(self, project: str, replaced_links: dict, compiled_html: str):
         env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
         if env_prefix is None:
-            env_prefix = dl.client_api.environments[dl.client_api.environment].get('gate_url', None).replace('-gate', '')
+            env_prefix = dl.client_api.environment.replace('-gate', '').replace('/api/v1', '')
         project_link_prefix = env_prefix + "projects/"
         project_name = self.get_resource_name(project, self.get_project)
         compiled_html = compiled_html.replace('$$ProjectLink$$',
