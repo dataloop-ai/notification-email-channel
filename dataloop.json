@@ -69,7 +69,7 @@
         "packageName": "default-package",
         "packageRevision": "latest",
         "secrets": [],
-        "botUserName": "pipelines@dataloop.ai",
+        "botUserName": "pipelines-imerit@dataloop.ai",
         "runtime": {
           "podType": "regular-xs",
           "numReplicas": 1,
