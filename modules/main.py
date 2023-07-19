@@ -5,6 +5,7 @@ from enum import Enum
 
 assets_folder = './assets'
 
+
 class NotificationResourceType(str, Enum):
     EXECUTIONS = "executions",
     PIPELINES = "pipelines",
@@ -12,6 +13,7 @@ class NotificationResourceType(str, Enum):
     SERVICES = "services",
     TASKS = "tasks",
     ASSIGNMENTS = "assignments"
+
 
 class EventMessage:
     def __init__(self, event_message: dict):
@@ -27,6 +29,7 @@ class EventMessage:
         self.resource_id = event_message.get('resourceId', None)
         self.resource_type = event_message.get('resourceType', None)
         self.resource_name = event_message.get('resourceName', None)
+
 
 class NotificationInfo:
     def __init__(self, notification_info: dict):
@@ -60,6 +63,16 @@ class ApplicationInput:
         self.notification_info = NotificationInfo(application_input.get('notificationInfo'))
         self.recipients = application_input.get('recipients')
         self.notification_id = application_input.get('notificationId')
+
+    def get_service(self):
+        return self.notification_info.context.get('service', None)
+
+    def get_pipeline(self):
+        return self.notification_info.context.get('pipeline', None)
+
+    def get_resource_id(self):
+        return self.notification_info.event_message.resource_id
+
 
 class ServiceRunner(dl.BaseServiceRunner):
     def __init__(self, **kwargs):
@@ -109,8 +122,7 @@ class ServiceRunner(dl.BaseServiceRunner):
             "disposition": "inline"
         }
 
-    def insert_log_link(self, application_input: ApplicationInput, replaced_links: dict, link_prefix: str, compiled_html: str):
-        service = application_input.notification_info.event_message.resource_id
+    def insert_log_link(self, replaced_links: dict, link_prefix: str, compiled_html: str, service: str = None):
         if service is not None:
             log_link = link_prefix + "/faas/logs?serviceId={0}".format(service)
             compiled_html = compiled_html.replace('$$ServiceLogsLink$$',
@@ -119,8 +131,7 @@ class ServiceRunner(dl.BaseServiceRunner):
             replaced_links['$$ServiceLogsLink$$'] = True
         return compiled_html
 
-    def insert_service_link(self, application_input: ApplicationInput, replaced_links: dict, link_prefix: str, compiled_html: str):
-        service = application_input.notification_info.event_message.resource_id
+    def insert_service_link(self, replaced_links: dict, link_prefix: str, compiled_html: str, service: str = None):
         if service is not None:
             service_link = link_prefix + "/services/{0}".format(service)
             resource_name = self.get_resource_name(service, self.get_service)
@@ -130,8 +141,7 @@ class ServiceRunner(dl.BaseServiceRunner):
             replaced_links['$$ServiceLink$$'] = True
         return compiled_html
 
-    def insert_executions_link(self, application_input: ApplicationInput, replaced_links: dict, link_prefix: str, compiled_html: str):
-        service = application_input.notification_info.event_message.resource_id
+    def insert_executions_link(self, replaced_links: dict, link_prefix: str, compiled_html: str, service: str = None):
         if service is not None:
             executions_link = link_prefix + "/executions?serviceId={0}".format(service)
             compiled_html = compiled_html.replace('$$ServiceExecutionsLink$$',
@@ -140,8 +150,7 @@ class ServiceRunner(dl.BaseServiceRunner):
             replaced_links['$$ServiceExecutionsLink$$'] = True
         return compiled_html
 
-    def insert_pipeline_link(self, application_input: ApplicationInput, replaced_links: dict, link_prefix: str, compiled_html: str):
-        pipeline = application_input.notification_info.event_message.resource_id
+    def insert_pipeline_link(self, replaced_links: dict, link_prefix: str, compiled_html: str, pipeline: str = None):
         if pipeline is not None:
             pipeline_link = link_prefix + "/pipelines/{}".format(pipeline)
             resource_name = self.get_resource_name(pipeline, self.get_pipeline)
@@ -151,8 +160,7 @@ class ServiceRunner(dl.BaseServiceRunner):
             replaced_links['$$PipelineLink$$'] = True
         return compiled_html
 
-    def insert_task_link(self, application_input: ApplicationInput, replaced_links: dict, link_prefix: str, compiled_html: str):
-        task = application_input.notification_info.event_message.resource_id
+    def insert_task_link(self, replaced_links: dict, link_prefix: str, compiled_html: str, task: str = None):
         if task is not None:
             task_link = link_prefix + "/tasks/{0}/assignments".format(task)
             resource_name = self.get_resource_name(task, self.get_task)
@@ -162,8 +170,7 @@ class ServiceRunner(dl.BaseServiceRunner):
             replaced_links['$$TaskLink$$'] = True
         return compiled_html
 
-    def insert_assignment_link(self, application_input: ApplicationInput, replaced_links: dict, link_prefix: str, compiled_html: str):
-        assignment = application_input.notification_info.event_message.resource_id
+    def insert_assignment_link(self, replaced_links: dict, link_prefix: str, compiled_html: str, assignment: str = None):
         assignments_link = link_prefix + "/assignments/{0}/items".format(assignment)
         assignment_name = self.get_resource_name(assignment, self.get_assignment)
         compiled_html = compiled_html.replace('$$AssignmentLink$$',
@@ -191,51 +198,56 @@ class ServiceRunner(dl.BaseServiceRunner):
         if project is not None:
             link_prefix, compiled = self.insert_project_link(project=project, replaced_links=replaced_links, compiled_html=compiled)
             if resource_type == NotificationResourceType.SERVICES:
+                service = application_input.get_resource_id()
                 compiled = self.insert_service_link(
-                    application_input=application_input,
                     replaced_links=replaced_links,
                     link_prefix=link_prefix,
-                    compiled_html=compiled
+                    compiled_html=compiled,
+                    service=service
                 )
                 compiled = self.insert_log_link(
-                    application_input=application_input,
                     replaced_links=replaced_links,
                     link_prefix=link_prefix,
-                    compiled_html=compiled
+                    compiled_html=compiled,
+                    service=service
                 )
             elif resource_type == NotificationResourceType.EXECUTIONS:
+                service = application_input.get_service()
                 compiled = self.insert_service_link(
-                    application_input=application_input,
                     replaced_links=replaced_links,
                     link_prefix=link_prefix,
-                    compiled_html=compiled
+                    compiled_html=compiled,
+                    service=service
                 )
                 compiled = self.insert_executions_link(
-                    application_input=application_input,
                     replaced_links=replaced_links,
                     link_prefix=link_prefix,
-                    compiled_html=compiled
+                    compiled_html=compiled,
+                    service=service
                 )
             elif resource_type == NotificationResourceType.CYCLES:
+                pipeline = application_input.get_pipeline()
                 compiled = self.insert_pipeline_link(
-                    application_input=application_input,
                     replaced_links=replaced_links,
                     link_prefix=link_prefix,
-                    compiled_html=compiled
+                    compiled_html=compiled,
+                    pipeline=pipeline
                 )
             elif resource_type == NotificationResourceType.TASKS:
+                task = application_input.get_resource_id()
                 compiled = self.insert_task_link(
-                    application_input=application_input,
                     replaced_links=replaced_links,
                     link_prefix=link_prefix,
-                    compiled_html=compiled
+                    compiled_html=compiled,
+                    task=task
                 )
             elif resource_type == NotificationResourceType.ASSIGNMENTS:
+                assignment = application_input.get_resource_id()
                 compiled = self.insert_assignment_link(
-                    application_input=application_input,
                     replaced_links=replaced_links,
                     link_prefix=link_prefix,
-                    compiled_html=compiled
+                    compiled_html=compiled,
+                    assignment=assignment
                 )
         for link in ["$$ProjectLink$$",
                      "$$ServiceLink$$",
@@ -252,7 +264,6 @@ class ServiceRunner(dl.BaseServiceRunner):
     def build_icon_attachment(self, application_input: ApplicationInput):
         priority = application_input.notification_info.priority
         icon_image_id = 'notification_icon'
-        icon_file = None
         if priority <= 50:
             icon_file = open(assets_folder + '/icon-dl-info-filled.png', 'rb').read()
         elif priority <= 75:
@@ -283,7 +294,7 @@ class ServiceRunner(dl.BaseServiceRunner):
         compiled = self.insert_links(html_template_string=compiled, application_input=application_input)
         return compiled, attachments
 
-    def email(self, input: dict, **kwargs):
+    def email(self, input: dict):
         print(os.getcwd())
         application_input = ApplicationInput(input)
         with open(assets_folder + '/email_template.html', 'r') as file:
