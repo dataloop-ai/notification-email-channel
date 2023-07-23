@@ -65,7 +65,7 @@
       {
         "name": "dataloop-email-channel",
         "panelNames": [],
-        "initParams": {},
+        "initParams": {"env_prefix": },
         "packageName": "default-package",
         "packageRevision": "latest",
         "secrets": [],

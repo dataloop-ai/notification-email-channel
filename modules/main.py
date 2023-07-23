@@ -78,6 +78,20 @@ class ServiceRunner(dl.BaseServiceRunner):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.resource_names = dict()
+        self.env_prefix = kwargs.get('env_prefix', None)
+        if self.env_prefix is None:
+            self.env_prefix = self.get_platform_url()
+
+    @staticmethod
+    def get_platform_url():
+        environment = dl.client_api.environment
+        env_json = dl.client_api.environments.get(environment, None)
+
+        # support env json in private tenant (issue)
+        if environment in env_json:
+            env_json = env_json.get(environment, env_json)
+
+        return env_json.get('platform_url', env_json.get('url', environment.replace('-gate', '').replace('/api/v1', '')))
 
     def get_resource_name(self, resource_id, callback: callable):
         if resource_id in self.resource_names:
@@ -180,10 +194,7 @@ class ServiceRunner(dl.BaseServiceRunner):
         return compiled_html
 
     def insert_project_link(self, project: str, replaced_links: dict, compiled_html: str):
-        env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
-        if env_prefix is None:
-            env_prefix = dl.client_api.environment.replace('-gate', '').replace('/api/v1', '')
-        project_link_prefix = env_prefix + "projects/"
+        project_link_prefix = self.env_prefix + "projects/"
         project_name = self.get_resource_name(project, self.get_project)
         compiled_html = compiled_html.replace('$$ProjectLink$$',
                                     '<div><span style="color: #171723; padding-right: 2px;">Project:</span><a href={0}>{1}</a></div>'.format(
@@ -316,3 +327,9 @@ class ServiceRunner(dl.BaseServiceRunner):
         if application_input.recipients is None or len(application_input.recipients) == 0:
             return
         dl.client_api.gen_request(req_type='post', json_req=req_data, path='/outbox')
+
+dl.setenv('rc')
+execution = dl.executions.get("64bd273099fd007b230541ea")
+dl.setenv('custom')
+sr = ServiceRunner()
+sr.email(**execution.input)
