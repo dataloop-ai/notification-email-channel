@@ -1,6 +1,6 @@
 {
   "id": "2",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "creator": "shlomi.s@dataloop.ai",
   "name": "dataloop-email-channel",
   "displayName": "dataloop-email-channel",
@@ -48,12 +48,6 @@
     }],
     "hooks": [],
     "modules": [{
-      "initInputs": [
-        {
-          "type": "string",
-          "name": "env_prefix"
-        }
-      ],
       "name": "dataloop-email-channel",
       "functions": [{
         "name": "email",
@@ -71,7 +65,7 @@
       {
         "name": "dataloop-email-channel",
         "panelNames": [],
-        "initParams": {"env_prefix": "https://rc-con.dataloop.ai/"},
+        "initParams": {},
         "packageName": "default-package",
         "packageRevision": "latest",
         "secrets": [],
