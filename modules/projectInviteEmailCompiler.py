@@ -1,5 +1,5 @@
 from modules.emailCompiler import EmailCompiler
-from modules.types import ApplicationInput, EmailTemplate
+from modules.notificationInfo import ApplicationInput, EmailTemplate
 
 
 class ProjectInviteEmailCompiler(EmailCompiler):
