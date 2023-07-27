@@ -1,6 +1,6 @@
 {
   "id": "2",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "creator": "shlomi.s@dataloop.ai",
   "name": "dataloop-email-channel",
   "displayName": "dataloop-email-channel",
@@ -12,55 +12,63 @@
   "codebase": {
     "type": "git",
     "gitUrl": "https://github.com/dataloop-ai/notification-email-channel",
-    "gitTag": "main"
+    "gitTag": "v1.0.6"
   },
   "scope": "organization",
   "components": {
     "panels": [],
-    "channels":[{
-      "name":"Email",
-      "description": "Send notifications via email",
-      "global": true,
-      "metadata": {
-        "serviceName": "dataloop-email-channel",
-        "functionName": "email",
-        "codebase": {
-          "type": "git",
-          "gitUrl": "https://github.com/dataloop-ai/notification-email-channel"
-        }
-      },
-      "context": {
-        "org": "dataloop-global",
-        "project": "dataloop-global",
-        "creator": "dataloop-global"
-      },
-      "filters": [{
-        "frequency": {
-          "type": "rate",
-          "value": 3600
+    "channels": [
+      {
+        "name": "Email",
+        "description": "Send notifications via email",
+        "global": true,
+        "metadata": {
+          "serviceName": "dataloop-email-channel",
+          "functionName": "email",
+          "codebase": {
+            "type": "git",
+            "gitUrl": "https://github.com/dataloop-ai/notification-email-channel"
+          }
         },
         "context": {
           "org": "dataloop-global",
           "project": "dataloop-global",
           "creator": "dataloop-global"
-        }
-      }]
-    }],
-    "hooks": [],
-    "modules": [{
-      "name": "dataloop-email-channel",
-      "functions": [{
-        "name": "email",
-        "input": [
+        },
+        "filters": [
           {
-            "type": "Json",
-            "name": "input"
+            "frequency": {
+              "type": "rate",
+              "value": 3600
+            },
+            "context": {
+              "org": "dataloop-global",
+              "project": "dataloop-global",
+              "creator": "dataloop-global"
+            }
           }
-        ],
-        "description": "dataloop notifications email channel",
-        "displayName": "dataloop-email-channel"
-      }]
-    }],
+        ]
+      }
+    ],
+    "hooks": [],
+    "modules": [
+      {
+        "name": "dataloop-email-channel",
+        "functions": [
+          {
+            "name": "email",
+            "input": [
+              {
+                "type": "Json",
+                "name": "input"
+              }
+            ],
+            "description": "dataloop notifications email channel",
+            "displayName": "dataloop-email-channel"
+          }
+        ]
+      }
+    ],
     "services": [
       {
         "name": "dataloop-email-channel",
