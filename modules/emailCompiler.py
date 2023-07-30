@@ -46,7 +46,6 @@ class EmailCompiler(ABC):
         [compiled, attachments] = self.append_attachments(compiled)
         return [compiled, attachments]
 
-    @staticmethod
     def get_resource_name(self, resource_id, callback: callable):
         try:
             resource = callback(resource_id)
