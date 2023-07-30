@@ -83,18 +83,8 @@ class ApplicationInput:
     def get_pipeline(self):
         return self.notification_info.context.get('pipeline', None)
 
-    def get_user(self):
-        return self.notification_info.context.get('user', dict())
-
-    def get_user_email(self):
-        return self.get_user().get('email', None)
-
-    def get_user_avatar(self):
-        return self.get_user().get('avatar', None)
-
-    def get_user_role(self):
-        return self.get_user().get('role', None)
-
 
 class EmailTemplate(str, Enum):
     NOTIFICATION = "notification_template"
+    PROJECT_INVITE = "project_invite_template"
+    ORG_INVITE = "org_invite_template"

@@ -11,7 +11,7 @@ class ServiceRunner(dl.BaseServiceRunner):
         application_input = ApplicationInput(input)
         if application_input.recipients is None or len(application_input.recipients) == 0:
             return
-        template = EmailTemplate.NOTIFICATION
+        template = EmailTemplate.PROJECT_INVITE
         compiler = CompilerFactory.get_compiler(template=template, application_input=application_input)
         [compiled_html, attachments] = compiler.compile_html(template=template)
         title = '[Dataloop] ' + str(application_input.get_title()).title()
@@ -31,7 +31,7 @@ class ServiceRunner(dl.BaseServiceRunner):
 
 dl.setenv('rc')
 # dl.login()
-input = {
+notification_input = {
     "notificationInfo": {
         "notificationCode": "test",
         "context": {
@@ -51,4 +51,48 @@ input = {
     "recipients": ["shlomi.s@dataloop.ai"],
     "notificationId": 1
 }
-runner = ServiceRunner().email(input)
+
+
+project_input = {
+    "notificationInfo": {
+        "notificationCode": "test",
+        "context": {
+            "project": "329a6e2f-914f-40c7-9a21-10cfc1089789",
+            "org": "org"
+        },
+        "priority": 50,
+        "eventMessage": {
+            "title": "Project Invite",
+            "description": "test description",
+            "resourceAction": "test resourceAction",
+            "resourceId": "shlomi.s@dataloop.ai",
+            "resourceType": "test resourceType",
+            "resourceName": "test resourceName"
+        }
+    },
+    "recipients": ["shlomi.s@dataloop.ai"],
+    "notificationId": 1
+}
+
+org_input = {
+    "notificationInfo": {
+        "notificationCode": "test",
+        "context": {
+            "project": "329a6e2f-914f-40c7-9a21-10cfc1089789",
+            "org": "org"
+        },
+        "priority": 50,
+        "eventMessage": {
+            "title": "test title",
+            "description": "test description",
+            "resourceAction": "test resourceAction",
+            "resourceId": "test resourceId",
+            "resourceType": "test resourceType",
+            "resourceName": "test resourceName"
+        }
+    },
+    "recipients": ["shlomi.s@dataloop.ai"],
+    "notificationId": 1
+}
+
+ServiceRunner().email(project_input)

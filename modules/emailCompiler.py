@@ -1,6 +1,7 @@
 import base64
 from abc import ABC, abstractmethod
 from modules.notificationInfo import EmailTemplate, ApplicationInput
+import dtlpy as dl
 
 
 class EmailCompiler(ABC):
@@ -9,6 +10,8 @@ class EmailCompiler(ABC):
         super().__init__()
         self.application_input = application_input
         self.assets_folder = '../assets'
+        self.resource_names = dict()
+        self.env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
 
     def build_logo_attachment(self):
         image_id = 'logo'
@@ -42,3 +45,40 @@ class EmailCompiler(ABC):
             '##description##', self.application_input.get_description())
         [compiled, attachments] = self.append_attachments(compiled)
         return [compiled, attachments]
+
+    @staticmethod
+    def get_resource_name(self, resource_id, callback: callable):
+        try:
+            resource = callback(resource_id)
+            return resource.name
+        except:
+            return resource_id
+
+    @staticmethod
+    def get_service(service_id):
+        return dl.services.get(service_id=service_id)
+
+    @staticmethod
+    def get_project(project_id):
+        return dl.projects.get(project_id=project_id)
+
+    @staticmethod
+    def get_pipeline(pipeline_id):
+        return dl.pipelines.get(pipeline_id=pipeline_id)
+
+    @staticmethod
+    def get_task(task_id):
+        return dl.tasks.get(task_id=task_id)
+
+    @staticmethod
+    def get_assignment(assignment_id):
+        return dl.assignments.get(assignment_id=assignment_id)
+
+    @staticmethod
+    def get_contributor(user_id, project_id) -> dl.entities.User:
+        project = EmailCompiler.get_project(project_id)
+        for contributor in project.contributors:
+            if contributor.email == user_id:
+                return contributor
+        raise 'contributor {0} not found in project {1}'.format(user_id, project_id)
+

@@ -8,39 +8,8 @@ from modules.notificationInfo import NotificationResourceType, ApplicationInput
 class NotificationEmailCompiler(EmailCompiler):
     def __init__(self, application_input: ApplicationInput):
         super().__init__(application_input)
-        self.resource_names = dict()
+
         self.replaced_links = dict()
-
-    def get_resource_name(self, resource_id, callback: callable):
-        if resource_id in self.resource_names:
-            return self.resource_names[resource_id]
-        else:
-            try:
-                resource = callback(resource_id)
-                self.resource_names[resource_id] = resource.name
-                return resource.name
-            except:
-                return resource_id
-
-    @staticmethod
-    def get_service(service_id):
-        return dl.services.get(service_id=service_id)
-
-    @staticmethod
-    def get_project(project_id):
-        return dl.projects.get(project_id=project_id)
-
-    @staticmethod
-    def get_pipeline(pipeline_id):
-        return dl.pipelines.get(pipeline_id=pipeline_id)
-
-    @staticmethod
-    def get_task(task_id):
-        return dl.tasks.get(task_id=task_id)
-
-    @staticmethod
-    def get_assignment(assignment_id):
-        return dl.assignments.get(assignment_id=assignment_id)
 
     def build_icon_attachment(self):
         priority = self.application_input.get_priority()
@@ -136,8 +105,7 @@ class NotificationEmailCompiler(EmailCompiler):
         return compiled_html
 
     def insert_project_link(self, project: str, compiled_html: str):
-        env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
-        project_link_prefix = env_prefix + "projects/"
+        project_link_prefix = self.env_prefix + "projects/"
         project_name = self.get_resource_name(project, self.get_project)
         compiled_html = compiled_html.replace('$$ProjectLink$$',
                                               '<div><span style="color: #171723; padding-right: 2px;">Project:</span><a href={0}>{1}</a></div>'.format(
