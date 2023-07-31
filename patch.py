@@ -19,3 +19,6 @@ p.communicate()
 cmd = ['git', 'tag', '-a', current_version, '-m', current_version]
 p = subprocess.Popen(cmd)
 p.communicate()
+cmd = ['git', 'push', '--follow-tags']
+p = subprocess.Popen(cmd)
+p.communicate()
