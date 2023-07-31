@@ -11,7 +11,7 @@ class ServiceRunner(dl.BaseServiceRunner):
         application_input = ApplicationInput(input)
         if application_input.recipients is None or len(application_input.recipients) == 0:
             return
-        template = EmailTemplate.PROJECT_INVITE
+        template = EmailTemplate.ORG_INVITE
         compiler = CompilerFactory.get_compiler(template=template, application_input=application_input)
         [compiled_html, attachments] = compiler.compile_html(template=template)
         title = '[Dataloop] ' + str(application_input.get_title()).title()
@@ -30,7 +30,6 @@ class ServiceRunner(dl.BaseServiceRunner):
 
 
 dl.setenv('rc')
-# dl.login()
 notification_input = {
     "notificationInfo": {
         "notificationCode": "test",
@@ -79,14 +78,14 @@ org_input = {
         "notificationCode": "test",
         "context": {
             "project": "329a6e2f-914f-40c7-9a21-10cfc1089789",
-            "org": "org"
+            "org": "6e8f5d61-5960-4677-bb21-d0ddbd94aed3"
         },
         "priority": 50,
         "eventMessage": {
             "title": "test title",
             "description": "test description",
             "resourceAction": "test resourceAction",
-            "resourceId": "test resourceId",
+            "resourceId": "shlomi.s@dataloop.ai",
             "resourceType": "test resourceType",
             "resourceName": "test resourceName"
         }
@@ -95,4 +94,4 @@ org_input = {
     "notificationId": 1
 }
 
-ServiceRunner().email(project_input)
+ServiceRunner().email(org_input)

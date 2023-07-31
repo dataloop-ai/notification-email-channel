@@ -83,6 +83,9 @@ class ApplicationInput:
     def get_pipeline(self):
         return self.notification_info.context.get('pipeline', None)
 
+    def get_org(self):
+        return self.notification_info.context.get('org', None)
+
 
 class EmailTemplate(str, Enum):
     NOTIFICATION = "notification_template"
