@@ -1,5 +1,6 @@
 import base64
 
+from assets.assetsLoader import AssetsLoader
 from modules.emailCompiler import EmailCompiler
 import dtlpy as dl
 from modules.notificationInfo import NotificationResourceType, ApplicationInput
@@ -15,11 +16,11 @@ class NotificationEmailCompiler(EmailCompiler):
         priority = self.application_input.get_priority()
         icon_image_id = 'notification_icon'
         if priority <= 50:
-            icon_file = open(self.assets_folder + '/icon-dl-info-filled.png', 'rb').read()
+            icon_file = AssetsLoader.get_info_icon()
         elif priority <= 75:
-            icon_file = open(self.assets_folder + '/icon-dl-alert-filled.png', 'rb').read()
+            icon_file = AssetsLoader.get_warning_icon()
         else:
-            icon_file = open(self.assets_folder + '/icon-dl-error-filled.png', 'rb').read()
+            icon_file = AssetsLoader.get_error_icon()
 
         dataloop_logo_base64_utf8_str = base64.b64encode(icon_file).decode('utf-8')
         return {

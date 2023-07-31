@@ -1,5 +1,7 @@
 import base64
 from abc import ABC, abstractmethod
+
+from assets.assetsLoader import AssetsLoader
 from modules.notificationInfo import EmailTemplate, ApplicationInput
 import dtlpy as dl
 
@@ -9,7 +11,6 @@ class EmailCompiler(ABC):
     def __init__(self, application_input: ApplicationInput):
         super().__init__()
         self.application_input = application_input
-        self.assets_folder = '../assets'
         self.resource_names = dict()
         self.env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
         if self.env_prefix is None:
@@ -17,7 +18,7 @@ class EmailCompiler(ABC):
 
     def build_logo_attachment(self):
         image_id = 'logo'
-        logo_file_content = open(self.assets_folder + '/logo.png', 'rb').read()
+        logo_file_content = AssetsLoader.get_logo()
         logo_base64_utf8_str = base64.b64encode(logo_file_content).decode('utf-8')
         return {
             "filename": "logo",
@@ -40,8 +41,7 @@ class EmailCompiler(ABC):
 
     @abstractmethod
     def compile_html(self, template: EmailTemplate):
-        with open(self.assets_folder + '/{0}.html'.format(template), 'r') as file:
-            compiled = file.read()
+        compiled = AssetsLoader.get_template(template)
         compiled = compiled.replace('##title##', self.application_input.get_title())
         compiled = compiled.replace(
             '##description##', self.application_input.get_description())
