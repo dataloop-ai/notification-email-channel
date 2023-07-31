@@ -8,7 +8,7 @@ class AssetsLoader:
 
     @staticmethod
     def get_logo():
-        return AssetsLoader.read_bytes('logo.png', 'rb')
+        return AssetsLoader.read('logo.png', 'rb')
 
     @staticmethod
     def get_info_icon():
