@@ -11,7 +11,7 @@ class ServiceRunner(dl.BaseServiceRunner):
         application_input = ApplicationInput(input)
         if application_input.recipients is None or len(application_input.recipients) == 0:
             return
-        template = EmailTemplate.ORG_INVITE
+        template = EmailTemplate.NOTIFICATION
         compiler = CompilerFactory.get_compiler(template=template, application_input=application_input)
         [compiled_html, attachments] = compiler.compile_html(template=template)
         title = '[Dataloop] ' + str(application_input.get_title()).title()
