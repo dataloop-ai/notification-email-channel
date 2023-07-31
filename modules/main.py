@@ -78,13 +78,6 @@ class ServiceRunner(dl.BaseServiceRunner):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.resource_names = dict()
-        self.env_prefix = self.get_platform_url()
-
-    @staticmethod
-    def get_platform_url():
-        env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
-        if env_prefix is None:
-            env_prefix = dl.client_api.environment.replace('-gate', '').replace('/api/v1', '')
 
     def get_resource_name(self, resource_id, callback: callable):
         if resource_id in self.resource_names:
@@ -187,7 +180,10 @@ class ServiceRunner(dl.BaseServiceRunner):
         return compiled_html
 
     def insert_project_link(self, project: str, replaced_links: dict, compiled_html: str):
-        project_link_prefix = self.env_prefix + "projects/"
+        env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
+        if env_prefix is None:
+            env_prefix = dl.client_api.environment.replace('-gate', '').replace('/api/v1', '')
+        project_link_prefix = env_prefix + "projects/"
         project_name = self.get_resource_name(project, self.get_project)
         compiled_html = compiled_html.replace('$$ProjectLink$$',
                                     '<div><span style="color: #171723; padding-right: 2px;">Project:</span><a href={0}>{1}</a></div>'.format(
