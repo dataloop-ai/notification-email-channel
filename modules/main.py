@@ -1,6 +1,8 @@
 import dtlpy as dl
 from modules.compilerFactory import CompilerFactory
-from modules.notificationInfo import ApplicationInput, EmailTemplate
+from modules.emailDispatcher import EmailDispatcher
+from modules.notificationInfo import ApplicationInput
+from modules.templateResolver import TemplateResolver
 
 
 class ServiceRunner(dl.BaseServiceRunner):
@@ -11,19 +13,7 @@ class ServiceRunner(dl.BaseServiceRunner):
         application_input = ApplicationInput(input)
         if application_input.recipients is None or len(application_input.recipients) == 0:
             return
-        template = EmailTemplate.NOTIFICATION
+        template = TemplateResolver.resolve_template(application_input.notification_info.notification_code)
         compiler = CompilerFactory.get_compiler(template=template, application_input=application_input)
         [compiled_html, attachments] = compiler.compile_html(template=template)
-        title = '[Dataloop] ' + str(application_input.get_title()).title()
-        from_sender = 'notifications@dataloop.ai'
-        from_name = 'Dataloop Notifications'
-        req_data = {
-            "to": application_input.recipients,
-            "from": from_sender,
-            "subject": title,
-            "body": compiled_html,
-            "attachments": attachments,
-            "personalize": True,
-            "senderName": from_name
-        }
-        dl.client_api.gen_request(req_type='post', json_req=req_data, path='/outbox')
+        EmailDispatcher.dispatch(application_input=application_input, compiled_html=compiled_html, attachments=attachments)

@@ -86,6 +86,12 @@ class ApplicationInput:
     def get_org(self):
         return self.notification_info.context.get('org', None)
 
+    def get_user_id(self):
+        return self.notification_info.context.get('userId', None)
+
+    def get_member(self):
+        return self.notification_info.context.get('member', None)
+
 
 class EmailTemplate(str, Enum):
     NOTIFICATION = "notification_template"

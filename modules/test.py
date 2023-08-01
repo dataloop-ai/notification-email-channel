@@ -26,17 +26,16 @@ notification_input = {
 
 project_input = {
     "notificationInfo": {
-        "notificationCode": "test",
+        "notificationCode": 'Platform.Invitations.ProjectInvitation',
         "context": {
-            "project": "329a6e2f-914f-40c7-9a21-10cfc1089789",
-            "org": "org"
+            "member": "shlomi.s@dataloop.ai",
         },
         "priority": 50,
         "eventMessage": {
-            "title": "Project Invite",
+            "title": "Project Invitation",
             "description": "test description",
             "resourceAction": "test resourceAction",
-            "resourceId": "shlomi.s@dataloop.ai",
+            "resourceId": "329a6e2f-914f-40c7-9a21-10cfc1089789",
             "resourceType": "test resourceType",
             "resourceName": "test resourceName"
         }
@@ -47,17 +46,16 @@ project_input = {
 
 org_input = {
     "notificationInfo": {
-        "notificationCode": "test",
+        "notificationCode": 'Platform.Invitations.OrganizationInvitation',
         "context": {
-            "project": "329a6e2f-914f-40c7-9a21-10cfc1089789",
-            "org": "6e8f5d61-5960-4677-bb21-d0ddbd94aed3"
+            "userId": "shlomi.s@dataloop.ai"
         },
         "priority": 50,
         "eventMessage": {
-            "title": "test title",
+            "title": "Org Invitation",
             "description": "test description",
             "resourceAction": "test resourceAction",
-            "resourceId": "shlomi.s@dataloop.ai",
+            "resourceId": "6e8f5d61-5960-4677-bb21-d0ddbd94aed3",
             "resourceType": "test resourceType",
             "resourceName": "test resourceName"
         }
@@ -66,4 +64,4 @@ org_input = {
     "notificationId": 1
 }
 
-ServiceRunner().email(org_input)
+ServiceRunner().email(project_input)
