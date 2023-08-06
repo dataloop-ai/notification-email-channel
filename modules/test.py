@@ -12,7 +12,7 @@ notification_input = {
         "priority": 50,
         "eventMessage": {
             "title": "test title",
-            "description": "test description",
+            "description": "Execution failed due to code/runtime error in service. Traceback (most recent call last):\n  File \"/usr/local/lib/python3.6/dist-packages/dtlpy_agent/services/client_api.py\", line 1303, in _run_execution\n    context=context\n  File \"/usr/local/lib/python3.6/dist-packages/dtlpy_agent/services/client_api.py\", line 1061, in _parse_package_input\n    context=context\n  File \"/usr/local/lib/python3.6/dist-packages/dtlpy_agent/services/client_api.py\", line 953, in _parse_execution_input\n    inputs[name] = self._fetch_single_resource(value=value, output_type=output_type, sdk=sdk)\n  File \"/usr/local/lib/python3.6/dist-packages/dtlpy_agent/services/client_api.py\", line 891, in _fetch_single_resource\n    return getattr(sdk, '{}s'.format(output_type.lower())).get(**params) if params is not None else value\n  File \"/usr/local/lib/python3.6/dist-packages/dtlpy/repositories/items.py\", line 283, in get\n    message='Must choose by at least one. \"filename\" or \"item_id\"')\n  File \"/usr/local/lib/python3.6/dist-packages/dtlpy/exceptions.py\", line 49, in __init__\n    raise exceptions[self.status_code](status_code=self.status_code, message=self.message)\ndtlpy.exceptions.BadRequest: ('400', 'Must choose by at least one. \"filename\" or \"item_id\"')",
             "resourceAction": "test resourceAction",
             "resourceId": "test resourceId",
             "resourceType": "test resourceType",
@@ -64,4 +64,4 @@ org_input = {
     "notificationId": 1
 }
 
-ServiceRunner().email(project_input)
+ServiceRunner().email(notification_input)
