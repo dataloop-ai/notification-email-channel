@@ -63,7 +63,10 @@ class ApplicationInput:
         return self.notification_info.event_message.title
 
     def get_description(self):
-        return self.notification_info.event_message.description
+        description = ' '.join(self.notification_info.event_message.description.split(' ')[:150])[:150*8]
+        if len(self.notification_info.event_message.description) > len(description):
+            description += '...\n\nTo read the full message, please access Dataloop.'
+        return description
 
     def get_priority(self):
         return self.notification_info.priority
