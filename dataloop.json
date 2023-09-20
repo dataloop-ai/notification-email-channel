@@ -76,7 +76,9 @@
         "initParams": {},
         "packageName": "default-package",
         "packageRevision": "latest",
-        "secrets": [],
+        "secrets": [
+          "e1f32ff8-8bc8-4a62-bf2c-a0c5a4ae8bb9"
+        ],
         "botUserName": "pipelines@dataloop.ai",
         "runtime": {
           "podType": "regular-xs",
