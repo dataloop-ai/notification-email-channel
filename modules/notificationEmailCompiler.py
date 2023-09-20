@@ -178,6 +178,6 @@ class NotificationEmailCompiler(EmailCompiler):
     def compile_html(self, template):
         [compiled, attachments] = super().compile_html(template=template)
         compiled = self.insert_links(compiled)
-        test_secret = dl.get_secret("test")
+        test_secret = dl.get_secret("test_notification")
         compiled = compiled.replace('$$testSecret$$', test_secret)
         return [compiled, attachments]
