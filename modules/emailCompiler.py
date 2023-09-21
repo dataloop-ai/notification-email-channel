@@ -95,4 +95,7 @@ class EmailCompiler(ABC):
         for member in org.members:
             if member['id'] == user_id:
                 return member
+        for member in org.list_members():
+            if member.id == user_id:
+                return member
         raise Exception('member {0} not found in org {1}'.format(user_id, org['id']))
