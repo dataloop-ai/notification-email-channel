@@ -5,7 +5,7 @@ from modules.notificationInfo import EmailTemplate, ApplicationInput
 class OrgInviteCompiler(EmailCompiler):
     def __init__(self, application_input: ApplicationInput):
         super().__init__(application_input)
-        self.user_id = self.application_input.get_member()
+        self.user_id = self.application_input.get_user_id()
         if self.user_id is None:
             raise ValueError('user_id is None')
         org_id = self.application_input.get_resource_id()
