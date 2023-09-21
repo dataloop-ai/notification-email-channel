@@ -79,11 +79,16 @@ class EmailCompiler(ABC):
     @staticmethod
     def get_contributor(user_id, project_id) -> dl.entities.User:
         project = EmailCompiler.get_project(project_id)
+        contributors = project.contributors
         members = project.list_members()
-        for contributor in members:
+        for contributor in contributors:
             if contributor.email == user_id:
                 return contributor
-        raise Exception('contributor {0} not found in project {1}'.format(user_id, project_id))
+        for member in members:
+            if member.email == user_id:
+                return member
+        return None
+        
 
     @staticmethod
     def get_org(org_id):
@@ -98,4 +103,4 @@ class EmailCompiler(ABC):
         for member in org.list_members():
             if member.id == user_id:
                 return member
-        raise Exception('member {0} not found in org {1}'.format(user_id, org['id']))
+        return None

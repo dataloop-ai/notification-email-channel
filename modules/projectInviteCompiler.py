@@ -8,7 +8,10 @@ class ProjectInviteCompiler(EmailCompiler):
         self.user_id = self.application_input.get_member()
         self.project_id = self.application_input.get_resource_id()
         self.contributor = self.get_contributor(user_id=self.user_id, project_id=self.project_id)
-        self.role = self.contributor.role or 'Role Unknown'
+        if not self.contributor:
+            self.role = 'Role Unknown'
+        else:
+            self.role = self.contributor.role or 'Role Unknown'
 
     def replace_params(self, compiled):
         params = [
