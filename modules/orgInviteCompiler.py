@@ -31,7 +31,7 @@ class OrgInviteCompiler(EmailCompiler):
         return compiled
 
     def replace_avatar(self, compiled):
-        if self.member['avatar']:
+        if self.member and self.member['avatar']:
             compiled = compiled.replace('@@userImage@@', self.member['avatar'])
         else:
             compiled = compiled.replace('@@userImage@@', self.default_avatar)

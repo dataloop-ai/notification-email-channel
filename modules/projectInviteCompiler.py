@@ -30,7 +30,7 @@ class ProjectInviteCompiler(EmailCompiler):
         return compiled
 
     def replace_avatar(self, compiled):
-        if self.contributor.avatar:
+        if self.contributor and self.contributor.avatar:
             compiled = compiled.replace('@@userImage@@', self.contributor.avatar)
         else:
             compiled = compiled.replace('@@userImage@@', self.default_avatar)
