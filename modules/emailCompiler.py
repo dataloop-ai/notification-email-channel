@@ -15,6 +15,7 @@ class EmailCompiler(ABC):
         self.env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
         if self.env_prefix is None:
             raise Exception('Failed to resolve env')
+        self.default_avatar = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
 
     def build_logo_attachment(self):
         image_id = 'logo'

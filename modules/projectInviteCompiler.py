@@ -23,8 +23,10 @@ class ProjectInviteCompiler(EmailCompiler):
         return compiled
 
     def replace_avatar(self, compiled):
-        compiled = compiled.replace('@@userImage@@', self.contributor.avatar)
-        return compiled
+        if self.member['avatar']:
+            compiled = compiled.replace('@@userImage@@', self.member['avatar'])
+        else:
+            compiled = compiled.replace('@@userImage@@', self.default_avatar)
 
     def compile_html(self, template: EmailTemplate):
         [compiled, attachments] = super().compile_html(template=template)
