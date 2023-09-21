@@ -6,9 +6,13 @@ class ProjectInviteCompiler(EmailCompiler):
     def __init__(self, application_input: ApplicationInput):
         super().__init__(application_input)
         self.user_id = self.application_input.get_member()
+        if self.user_id is None:
+            raise ValueError('user_id is None')
         self.project_id = self.application_input.get_resource_id()
+        if self.project_id is None:
+            raise ValueError('project_id is None')
         self.contributor = self.get_contributor(user_id=self.user_id, project_id=self.project_id)
-        if not self.contributor:
+        if self.contributor is None:
             self.role = 'Role Unknown'
         else:
             self.role = self.contributor.role or 'Role Unknown'

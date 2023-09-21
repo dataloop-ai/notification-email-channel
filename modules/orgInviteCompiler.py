@@ -6,10 +6,14 @@ class OrgInviteCompiler(EmailCompiler):
     def __init__(self, application_input: ApplicationInput):
         super().__init__(application_input)
         self.user_id = self.application_input.get_member()
+        if self.user_id is None:
+            raise ValueError('user_id is None')
         org_id = self.application_input.get_resource_id()
+        if org_id is None:
+            raise ValueError('org_id is None')
         self.org = self.get_org(org_id=org_id)
         self.member = self.get_org_member(org=self.org, user_id=self.user_id)
-        if not self.member:
+        if self.member is None:
             self.role = 'Unknown Role'
         else:
             self.role = self.member.get('role', None) or 'Unknown Role'
