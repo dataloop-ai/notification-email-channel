@@ -14,7 +14,7 @@ class EmailCompiler(ABC):
         self.resource_names = dict()
         self.env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
         if self.env_prefix is None:
-            raise 'Failed to resolve env'
+            raise Exception('Failed to resolve env')
 
     def build_logo_attachment(self):
         image_id = 'logo'
@@ -78,10 +78,11 @@ class EmailCompiler(ABC):
     @staticmethod
     def get_contributor(user_id, project_id) -> dl.entities.User:
         project = EmailCompiler.get_project(project_id)
-        for contributor in project.contributors:
+        members = project.list_members()
+        for contributor in members:
             if contributor.email == user_id:
                 return contributor
-        raise 'contributor {0} not found in project {1}'.format(user_id, project_id)
+        raise Exception('contributor {0} not found in project {1}'.format(user_id, project_id))
 
     @staticmethod
     def get_org(org_id):
@@ -93,4 +94,4 @@ class EmailCompiler(ABC):
         for member in org.members:
             if member['id'] == user_id:
                 return member
-        raise 'member {0} not found in org {1}'.format(user_id, org['id'])
+        raise Exception('member {0} not found in org {1}'.format(user_id, org['id']))
