@@ -7,7 +7,8 @@ class NotificationResourceType(str, Enum):
     CYCLES = "pipeline.run",
     SERVICES = "services",
     TASKS = "tasks",
-    ASSIGNMENTS = "assignments"
+    ASSIGNMENTS = "assignments",
+    ANNOTATIONS = "annotations"
 
 
 class EventMessage:
@@ -94,6 +95,9 @@ class ApplicationInput:
 
     def get_member(self):
         return self.notification_info.context.get('member', None)
+
+    def get_assignment(self):
+        return self.notification_info.context.get('assignmentId', None)
 
 
 class EmailTemplate(str, Enum):
