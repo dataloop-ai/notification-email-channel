@@ -96,7 +96,14 @@ class NotificationEmailCompiler(EmailCompiler):
 
     def insert_assignment_link(self, link_prefix: str,
                                compiled_html: str):
-        assignment = self.application_input.get_resource_id()
+        resource_type = self.application_input.get_resource_type()
+        if resource_type == NotificationResourceType.ASSIGNMENTS:
+            assignment = self.application_input.get_resource_id()
+        else:
+            assignment = self.application_input.get_assignment()
+        if assignment is None:
+            return compiled_html
+
         assignments_link = link_prefix + "/assignments/{0}/items".format(assignment)
         assignment_name = self.get_resource_name(assignment, self.get_assignment)
         compiled_html = compiled_html.replace('$$AssignmentLink$$',
@@ -162,6 +169,11 @@ class NotificationEmailCompiler(EmailCompiler):
                 compiled = self.insert_assignment_link(
                     link_prefix=link_prefix,
                     compiled_html=compiled
+                )
+            elif resource_type == NotificationResourceType.ANNOTATIONS:
+                compiled = self.insert_assignment_link(
+                    link_prefix=link_prefix,
+                    compiled_html=compiled,
                 )
         for link in ["$$ProjectLink$$",
                      "$$ServiceLink$$",
