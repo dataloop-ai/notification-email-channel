@@ -88,19 +88,26 @@ class EmailCompiler(ABC):
             if member.email == user_id:
                 return member
         return None
-        
 
     @staticmethod
     def get_org(org_id):
-        org = dl.organizations.get(organization_id=org_id)
-        return org
+        try:
+            org = dl.organizations.get(organization_id=org_id)
+            return org
+        except:
+            return None
 
     @staticmethod
     def get_org_member(org, user_id):
-        for member in org.members:
-            if member['id'] == user_id:
-                return member
-        for member in org.list_members():
-            if member.id == user_id:
-                return member
-        return None
+        if org is None:
+            return None
+        try:
+            for member in org.members:
+                if member['id'] == user_id:
+                    return member
+            for member in org.list_members():
+                if member.id == user_id:
+                    return member
+            return None
+        except:
+            return None

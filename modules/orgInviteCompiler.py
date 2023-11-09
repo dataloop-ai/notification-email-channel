@@ -21,10 +21,12 @@ class OrgInviteCompiler(EmailCompiler):
     def replace_params(self, compiled):
         params = [
             {"name": "userEmail", "value": self.user_id},
-            {"name": "role", "value": self.role},
+            {"name": "role",
+             "value": self.application_input.notification_info.body.get('role', None) or 'Unknown role'},
             {"name": "domain", "value": self.env_prefix},
-            {"name": "orgName", "value": self.org.name or 'Unknown name'},
-            {"name": "orgId", "value": self.org.id}
+            {"name": "orgName",
+             "value": self.application_input.notification_info.body.get('name', None) or 'Unknown name'},
+            {"name": "orgId", "value": self.application_input.notification_info.body.get('id', None) or 'Unknown id'}
         ]
         for param in params:
             compiled = compiled.replace('##{0}##'.format(param['name']), param['value'])
