@@ -24,20 +24,3 @@ p.communicate()
 cmd = ['git', 'push', '--follow-tags']
 p = subprocess.Popen(cmd)
 p.communicate()
-
-arguments = sys.argv
-env = 'rc'
-project="DataloopTasks"
-publish = False
-for arg in arguments:
-    if arg.startswith('--env='):
-        env = arg.split('=')[-1]
-    elif arg.startswith('--project='):
-        project = arg.split('=')[-1]
-    elif arg.startswith('--publish'):
-        publish = True
-if publish:
-    print(f'publishing dpk {dpk["name"]} version {dpk["version"]} in env {env} and in project {project}...')
-    dl.projects.get(project_name=project)
-    dl.dpks.publish(dpk)
-    print(f'published dpk {dpk["name"]} version {dpk["version"]} in env {env} and in project {project}!')
