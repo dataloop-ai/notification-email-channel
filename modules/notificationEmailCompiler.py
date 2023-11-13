@@ -43,7 +43,7 @@ class NotificationEmailCompiler(EmailCompiler):
         if service is not None:
             log_link = link_prefix + "/faas/logs?serviceId={0}".format(service)
             compiled_html = compiled_html.replace('$$ServiceLogsLink$$',
-                                                  '<div><span style="color: #171723; padding-right: 2px;">Logs:</span><a href={0}>Service Logs</a></div>'.format(
+                                                  '<div><span style="color: #171723; padding-right: 2px;">Logs:</span><a href={0}>Service Logs:</a></div>'.format(
                                                       log_link))
             self.replaced_links['$$ServiceLogsLink$$'] = True
         return compiled_html

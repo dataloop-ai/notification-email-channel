@@ -98,7 +98,6 @@ class ApplicationInput:
 
     def get_member(self):
         return self.notification_info.context.get('member', None)
-
     def get_assignment(self):
         return self.notification_info.context.get('assignmentId', None)
 

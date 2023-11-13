@@ -13,19 +13,13 @@ class OrgInviteCompiler(EmailCompiler):
             raise ValueError('org_id is None')
         self.org = self.get_org(org_id=org_id)
         self.member = self.get_org_member(org=self.org, user_id=self.user_id)
-        if self.member is None:
-            self.role = 'Unknown Role'
-        else:
-            self.role = self.member.get('role', None) or 'Unknown Role'
 
     def replace_params(self, compiled):
         params = [
             {"name": "userEmail", "value": self.user_id},
-            {"name": "role",
-             "value": self.application_input.notification_info.body.get('role', None) or 'Unknown role'},
+            {"name": "role", "value": self.application_input.notification_info.body.get('role', None) or 'Unknown role'},
             {"name": "domain", "value": self.env_prefix},
-            {"name": "orgName",
-             "value": self.application_input.notification_info.body.get('name', None) or 'Unknown name'},
+            {"name": "orgName", "value": self.application_input.notification_info.body.get('name', None) or 'Unknown name'},
             {"name": "orgId", "value": self.application_input.notification_info.body.get('id', None) or 'Unknown id'}
         ]
         for param in params:

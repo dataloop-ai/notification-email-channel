@@ -17,7 +17,8 @@ class EmailCompiler(ABC):
             raise Exception('Failed to resolve env')
         self.default_avatar = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
 
-    def build_logo_attachment(self):
+    @staticmethod
+    def build_logo_attachment():
         image_id = 'logo'
         logo_file_content = AssetsLoader.get_logo()
         logo_base64_utf8_str = base64.b64encode(logo_file_content).decode('utf-8')
@@ -49,7 +50,8 @@ class EmailCompiler(ABC):
         [compiled, attachments] = self.append_attachments(compiled)
         return [compiled, attachments]
 
-    def get_resource_name(self, resource_id, callback: callable):
+    @staticmethod
+    def get_resource_name(resource_id, callback: callable):
         try:
             resource = callback(resource_id)
             return resource.name
