@@ -1,7 +1,5 @@
 import json
 import subprocess
-import dtlpy as dl
-import sys
 
 with open('./dataloop.json') as json_file:
     dpk = json.load(json_file)
