@@ -63,6 +63,10 @@ class EmailCompiler(ABC):
         return dl.services.get(service_id=service_id)
 
     @staticmethod
+    def get_model(model_id):
+        return dl.models.get(model_id=model_id)
+
+    @staticmethod
     def get_project(project_id):
         return dl.projects.get(project_id=project_id)
 

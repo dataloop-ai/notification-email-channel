@@ -43,7 +43,7 @@ class NotificationEmailCompiler(EmailCompiler):
         if service is not None:
             log_link = link_prefix + "/faas/logs?serviceId={0}".format(service)
             compiled_html = compiled_html.replace('$$ServiceLogsLink$$',
-                                                  '<div><span style="color: #171723; padding-right: 2px;">Logs:</span><a href={0}>Service Logs:</a></div>'.format(
+                                                  '<div><span style="color: #171723; padding-right: 2px;">Logs:</span><a href={0}>Service Logs</a></div>'.format(
                                                       log_link))
             self.replaced_links['$$ServiceLogsLink$$'] = True
         return compiled_html
@@ -57,6 +57,17 @@ class NotificationEmailCompiler(EmailCompiler):
                                                   '<div><span style="color: #171723; padding-right: 2px;">Service:</span><a href={0}>{1}</a></div>'.format(
                                                       service_link, resource_name))
             self.replaced_links['$$ServiceLink$$'] = True
+        return compiled_html
+
+    def insert_model_link(self, link_prefix: str,
+                            compiled_html: str, model: str = None):
+        if model is not None:
+            model_link = link_prefix + "/model/{0}".format(model)
+            resource_name = self.get_resource_name(model, self.get_model)
+            compiled_html = compiled_html.replace('$$ModelLink$$',
+                                                  '<div><span style="color: #171723; padding-right: 2px;">Model:</span><a href={0}>{1}</a></div>'.format(
+                                                      model_link, resource_name))
+            self.replaced_links['$$ModelLink$$'] = True
         return compiled_html
 
     def insert_executions_link(self, link_prefix: str,
@@ -141,6 +152,16 @@ class NotificationEmailCompiler(EmailCompiler):
                     compiled_html=compiled,
                     service=service
                 )
+                compiled = self.insert_model_link(
+                    link_prefix=link_prefix,
+                    compiled_html=compiled,
+                    model=self.application_input.get_model()
+                )
+                compiled = self.insert_pipeline_link(
+                    link_prefix=link_prefix,
+                    compiled_html=compiled,
+                    pipeline=self.application_input.get_pipeline()
+                )
             elif resource_type == NotificationResourceType.EXECUTIONS:
                 service = self.application_input.get_service()
                 compiled = self.insert_service_link(
@@ -152,6 +173,16 @@ class NotificationEmailCompiler(EmailCompiler):
                     link_prefix=link_prefix,
                     compiled_html=compiled,
                     service=service
+                )
+                compiled = self.insert_model_link(
+                    link_prefix=link_prefix,
+                    compiled_html=compiled,
+                    model=self.application_input.get_model()
+                )
+                compiled = self.insert_pipeline_link(
+                    link_prefix=link_prefix,
+                    compiled_html=compiled,
+                    pipeline=self.application_input.get_pipeline()
                 )
             elif resource_type == NotificationResourceType.CYCLES:
                 pipeline = self.application_input.get_pipeline()
@@ -181,7 +212,8 @@ class NotificationEmailCompiler(EmailCompiler):
                      "$$ServiceExecutionsLink$$",
                      "$$PipelineLink$$",
                      "$$TaskLink$$",
-                     "$$AssignmentLink$$"
+                     "$$AssignmentLink$$",
+                     "$$ModelLink$$"
                      ]:
             if link not in self.replaced_links:
                 compiled = compiled.replace(link, '')

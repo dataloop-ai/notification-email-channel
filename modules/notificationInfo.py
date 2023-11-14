@@ -102,6 +102,9 @@ class ApplicationInput:
     def get_assignment(self):
         return self.notification_info.context.get('assignmentId', None)
 
+    def get_model(self):
+        return self.notification_info.context.get('model', None)
+
 
 class EmailTemplate(str, Enum):
     NOTIFICATION = "notification_template"
