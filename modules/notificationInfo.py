@@ -39,14 +39,12 @@ class NotificationInfo:
             raise ValueError('priority is None')
         if notification_info.get('eventMessage', None) is None:
             raise ValueError('eventMessage is None')
-        if notification_info.get('body', None) is None:
-            raise ValueError('body is None')
         self.notification_code = notification_info.get('notificationCode')
         self.type = notification_info.get('type', None)
         self.context = notification_info.get('context')
         self.priority = notification_info.get('priority')
         self.event_message = EventMessage(notification_info.get('eventMessage'))
-        self.body = notification_info.get('body')
+        self.body = notification_info.get('body', {})
 
 
 class ApplicationInput:
