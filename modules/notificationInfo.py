@@ -8,7 +8,8 @@ class NotificationResourceType(str, Enum):
     SERVICES = "services",
     TASKS = "tasks",
     ASSIGNMENTS = "assignments",
-    ANNOTATIONS = "annotations"
+    ANNOTATIONS = "annotations",
+    MODELS = "models",
 
 
 class EventMessage:

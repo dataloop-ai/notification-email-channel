@@ -52,7 +52,7 @@ class NotificationEmailCompiler(EmailCompiler):
                             compiled_html: str, service: str = None):
         if service is not None:
             service_link = link_prefix + "/services/{0}".format(service)
-            resource_name = self.get_resource_name(service, self.get_service)
+            resource_name = self.get_resource_name(service, self.get_service, NotificationResourceType.SERVICES)
             compiled_html = compiled_html.replace('$$ServiceLink$$',
                                                   '<div><span style="color: #171723; padding-right: 2px;">Service:</span><a href={0}>{1}</a></div>'.format(
                                                       service_link, resource_name))
@@ -63,7 +63,7 @@ class NotificationEmailCompiler(EmailCompiler):
                             compiled_html: str, model: str = None):
         if model is not None:
             model_link = link_prefix + "/model/{0}".format(model)
-            resource_name = self.get_resource_name(model, self.get_model)
+            resource_name = self.get_resource_name(model, self.get_model, NotificationResourceType.MODELS)
             compiled_html = compiled_html.replace('$$ModelLink$$',
                                                   '<div><span style="color: #171723; padding-right: 2px;">Model:</span><a href={0}>{1}</a></div>'.format(
                                                       model_link, resource_name))
@@ -86,7 +86,7 @@ class NotificationEmailCompiler(EmailCompiler):
                              pipeline: str=None):
         if pipeline is not None:
             pipeline_link = link_prefix + "/pipelines/{}".format(pipeline)
-            resource_name = self.get_resource_name(pipeline, self.get_pipeline)
+            resource_name = self.get_resource_name(pipeline, self.get_pipeline, NotificationResourceType.PIPELINES)
             compiled_html = compiled_html.replace('$$PipelineLink$$',
                                                   '<div><span style="color: #171723; padding-right: 2px;">Pipeline:</span><a href={0}>{1}</a></div>'.format(
                                                       pipeline_link, resource_name))
@@ -98,7 +98,7 @@ class NotificationEmailCompiler(EmailCompiler):
         task = self.application_input.get_resource_id()
         if task is not None:
             task_link = link_prefix + "/tasks/{0}/assignments".format(task)
-            resource_name = self.get_resource_name(task, self.get_task)
+            resource_name = self.get_resource_name(task, self.get_task, NotificationResourceType.TASKS)
             compiled_html = compiled_html.replace('$$TaskLink$$',
                                                   '<div><span style="color: #171723; padding-right: 2px;">Task:</span><a href={0}>{1}</a></div>'.format(
                                                       task_link, resource_name))
@@ -116,7 +116,7 @@ class NotificationEmailCompiler(EmailCompiler):
             return compiled_html
 
         assignments_link = link_prefix + "/assignments/{0}/items".format(assignment)
-        assignment_name = self.get_resource_name(assignment, self.get_assignment)
+        assignment_name = self.get_resource_name(assignment, self.get_assignment, NotificationResourceType.ASSIGNMENTS)
         compiled_html = compiled_html.replace('$$AssignmentLink$$',
                                               '<div><span style="color: #171723; padding-right: 2px;">Assignment:</span><a href={0}>{1}</a></div>'.format(
                                                   assignments_link, assignment_name))
