@@ -13,7 +13,11 @@ class EmailCompiler(ABC):
         self.application_input = application_input
         self.env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
         if self.env_prefix is None:
-            raise Exception('Failed to resolve env')
+            self.env_prefix = dl.client_api.environments[dl.client_api.environment].get('gate_url', None)
+        if self.env_prefix is None:
+            raise Exception('Unknown environment: {}'.format(dl.client_api.environment))
+        if self.env_prefix[-1] != '/':
+            self.env_prefix += '/'
         self.default_avatar = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
 
     @staticmethod
