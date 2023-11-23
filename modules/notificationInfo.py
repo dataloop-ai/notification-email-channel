@@ -8,7 +8,8 @@ class NotificationResourceType(str, Enum):
     SERVICES = "services",
     TASKS = "tasks",
     ASSIGNMENTS = "assignments",
-    ANNOTATIONS = "annotations"
+    ANNOTATIONS = "annotations",
+    MODELS = "models",
 
 
 class EventMessage:
@@ -99,6 +100,9 @@ class ApplicationInput:
 
     def get_assignment(self):
         return self.notification_info.context.get('assignmentId', None)
+
+    def get_model(self):
+        return self.notification_info.context.get('model', None)
 
 
 class EmailTemplate(str, Enum):

@@ -2,7 +2,7 @@ import base64
 from abc import ABC, abstractmethod
 
 from assets.assetsLoader import AssetsLoader
-from modules.notificationInfo import EmailTemplate, ApplicationInput
+from modules.notificationInfo import EmailTemplate, ApplicationInput, NotificationResourceType
 import dtlpy as dl
 
 
@@ -11,7 +11,6 @@ class EmailCompiler(ABC):
     def __init__(self, application_input: ApplicationInput):
         super().__init__()
         self.application_input = application_input
-        self.resource_names = dict()
         self.env_prefix = dl.client_api.environments[dl.client_api.environment].get('url', None)
         if self.env_prefix is None:
             raise Exception('Failed to resolve env')
@@ -50,8 +49,9 @@ class EmailCompiler(ABC):
         [compiled, attachments] = self.append_attachments(compiled)
         return [compiled, attachments]
 
-    @staticmethod
-    def get_resource_name(resource_id, callback: callable):
+    def get_resource_name(self, resource_id, callback: callable, resource_type: NotificationResourceType = None):
+        if resource_type is not None and resource_type == self.application_input.notification_info.event_message.resource_type:
+            return self.application_input.notification_info.event_message.resource_name
         try:
             resource = callback(resource_id)
             return resource.name
@@ -61,6 +61,10 @@ class EmailCompiler(ABC):
     @staticmethod
     def get_service(service_id):
         return dl.services.get(service_id=service_id)
+
+    @staticmethod
+    def get_model(model_id):
+        return dl.models.get(model_id=model_id)
 
     @staticmethod
     def get_project(project_id):
