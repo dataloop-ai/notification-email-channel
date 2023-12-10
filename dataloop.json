@@ -1,6 +1,6 @@
 {
   "id": "2",
-  "version": "1.0.34-unknown-project.0",
+  "version": "1.0.34-unknown-project.1",
   "creator": "shlomi.s@dataloop.ai",
   "name": "dataloop-email-channel",
   "displayName": "dataloop-email-channel",
@@ -12,7 +12,7 @@
   "codebase": {
     "type": "git",
     "gitUrl": "https://github.com/dataloop-ai/notification-email-channel",
-    "gitTag": "v1.0.34-unknown-project.0"
+    "gitTag": "v1.0.34-unknown-project.1"
   },
   "scope": "organization",
   "components": {
@@ -77,7 +77,7 @@
         "packageName": "default-package",
         "packageRevision": "latest",
         "secrets": [],
-        "botUserName": "pipelines-ford@dataloop.ai",
+        "botUserName": "pipelines@dataloop.ai",
         "runtime": {
           "podType": "regular-xs",
           "numReplicas": 1,
