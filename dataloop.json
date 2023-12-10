@@ -77,7 +77,7 @@
         "packageName": "default-package",
         "packageRevision": "latest",
         "secrets": [],
-        "botUserName": "pipelines@dataloop.ai",
+        "botUserName": "pipelines-ford@dataloop.ai",
         "runtime": {
           "podType": "regular-xs",
           "numReplicas": 1,
