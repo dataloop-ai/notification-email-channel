@@ -13,10 +13,21 @@ class ProjectInviteCompiler(EmailCompiler):
             raise ValueError('project_id is None')
         self.contributor = self.get_contributor(user_id=self.user_id, project_id=self.project_id)
 
+    @staticmethod
+    def api_role_to_display_role(api_role):
+        if api_role == 'engineer':
+            return 'Developer'
+        if api_role == 'annotationManager':
+            return 'Annotation Manager'
+        return api_role.title()
+
     def replace_params(self, compiled):
+        role = ProjectInviteCompiler.api_role_to_display_role(
+            self.application_input.notification_info.body.get('role', None) or 'Unknown role'
+        )
         params = [
             {"name": "userEmail", "value": self.user_id},
-            {"name": "role", "value": self.application_input.notification_info.body.get('role', None) or 'Unknown role'},
+            {"name": "role", "value": role},
             {"name": "domain", "value": self.env_prefix},
             {"name": "projectName", "value": self.application_input.notification_info.body.get('name', None) or 'Unknown name'},
             {"name": "projectId", "value": self.application_input.notification_info.body.get('id', None) or 'Unknown id'}

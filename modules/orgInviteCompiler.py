@@ -14,10 +14,17 @@ class OrgInviteCompiler(EmailCompiler):
         self.org = self.get_org(org_id=org_id)
         self.member = self.get_org_member(org=self.org, user_id=self.user_id)
 
+    @staticmethod
+    def api_role_to_display_role(api_role):
+        return api_role.title()
+
     def replace_params(self, compiled):
+        role = OrgInviteCompiler.api_role_to_display_role(
+            self.application_input.notification_info.body.get('role', None) or 'Unknown role'
+        )
         params = [
             {"name": "userEmail", "value": self.user_id},
-            {"name": "role", "value": self.application_input.notification_info.body.get('role', None) or 'Unknown role'},
+            {"name": "role", "value": role},
             {"name": "domain", "value": self.env_prefix},
             {"name": "orgName", "value": self.application_input.notification_info.body.get('name', None) or 'Unknown name'},
             {"name": "orgId", "value": self.application_input.notification_info.body.get('id', None) or 'Unknown id'}

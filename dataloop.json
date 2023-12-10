@@ -60,7 +60,7 @@
             "input": [
               {
                 "type": "Json",
-                "name": "input"
+                "name": "input"        
               }
             ],
             "description": "dataloop notifications email channel",
