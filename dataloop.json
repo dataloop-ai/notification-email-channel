@@ -1,6 +1,6 @@
 {
   "id": "2",
-  "version": "1.0.33",
+  "version": "1.0.34-unknown-project.0",
   "creator": "shlomi.s@dataloop.ai",
   "name": "dataloop-email-channel",
   "displayName": "dataloop-email-channel",
@@ -12,7 +12,7 @@
   "codebase": {
     "type": "git",
     "gitUrl": "https://github.com/dataloop-ai/notification-email-channel",
-    "gitTag": "v1.0.33"
+    "gitTag": "v1.0.34-unknown-project.0"
   },
   "scope": "organization",
   "components": {
