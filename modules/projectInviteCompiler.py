@@ -12,18 +12,25 @@ class ProjectInviteCompiler(EmailCompiler):
         if self.project_id is None:
             raise ValueError('project_id is None')
         self.contributor = self.get_contributor(user_id=self.user_id, project_id=self.project_id)
-        if self.contributor is None:
-            self.role = 'Role Unknown'
-        else:
-            self.role = self.contributor.role or 'Role Unknown'
+
+    @staticmethod
+    def api_role_to_display_role(api_role):
+        if api_role == 'engineer':
+            return 'Developer'
+        if api_role == 'annotationManager':
+            return 'Annotation Manager'
+        return api_role.title()
 
     def replace_params(self, compiled):
+        role = ProjectInviteCompiler.api_role_to_display_role(
+            self.application_input.notification_info.body.get('role', None) or 'Unknown role'
+        )
         params = [
             {"name": "userEmail", "value": self.user_id},
-            {"name": "role", "value": self.role},
-            {"name": "projectName", "value": self.get_resource_name(self.project_id, self.get_project)},
+            {"name": "role", "value": role},
             {"name": "domain", "value": self.env_prefix},
-            {"name": "projectId", "value": self.project_id}
+            {"name": "projectName", "value": self.application_input.notification_info.body.get('name', None) or 'Unknown name'},
+            {"name": "projectId", "value": self.application_input.notification_info.body.get('id', None) or 'Unknown id'}
         ]
         for param in params:
             compiled = compiled.replace('##{0}##'.format(param['name']), param['value'])
