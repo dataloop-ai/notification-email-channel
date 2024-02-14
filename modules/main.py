@@ -10,7 +10,8 @@ class ServiceRunner(dl.BaseServiceRunner):
         super().__init__(**kwargs)
 
     def email(self, input: dict):
-        application_input = ApplicationInput(input)
+        exe_input = input.get('input', input)
+        application_input = ApplicationInput(exe_input)
         if application_input.recipients is None or len(application_input.recipients) == 0:
             return
         template = TemplateResolver.resolve_template(application_input.notification_info.notification_code)
