@@ -20,12 +20,28 @@ notification_input = {
             "resourceType": "services",
             "resourceName": "test resourceName"
         },
-        "body": {}
+        "body": {
+            "id": "2f060744-e26f-405b-a326-80fb59170d7d",
+            "name": "TEST_OA_E2E_PROJECT_1707987814973",
+            "createdAt": 1707953109612,
+            "updatedAt": 1707953109612,
+            "url": "https://rc-gate.dataloop.ai/api/v1/projects/2f060744-e26f-405b-a326-80fb59170d7d",
+            "archived": None,
+            "creator": "playwright@tests.com",
+            "org": "54feb3f8-f3a0-4ac3-bf77-0be1f7960f3d",
+            "account": "794b6aa7-e772-4d8c-9952-4167bbc88da0",
+            "role": "annotator",
+            "enrichment": {
+                "notificationPath": "Platform.Invitations.ProjectInvitation",
+                "recipients": {
+                    "0": "dataloop-tester-5-0@dataloop.ai",
+                }
+            }
+        }
     },
     "recipients": ["shlomi.s@dataloop.ai"],
     "notificationId": 1
 }
-
 
 project_input = {
     "notificationInfo": {
@@ -41,6 +57,24 @@ project_input = {
             "resourceId": "329a6e2f-914f-40c7-9a21-10cfc1089789",
             "resourceType": "test resourceType",
             "resourceName": "test resourceName"
+        },
+        "body": {
+            "id": "2f060744-e26f-405b-a326-80fb59170d7d",
+            "name": "TEST_OA_E2E_PROJECT_1707987814973",
+            "createdAt": 1707953109612,
+            "updatedAt": 1707953109612,
+            "url": "https://rc-gate.dataloop.ai/api/v1/projects/2f060744-e26f-405b-a326-80fb59170d7d",
+            "archived": None,
+            "creator": "playwright@tests.com",
+            "org": "54feb3f8-f3a0-4ac3-bf77-0be1f7960f3d",
+            "account": "794b6aa7-e772-4d8c-9952-4167bbc88da0",
+            "role": "annotator",
+            "enrichment": {
+                "notificationPath": "Platform.Invitations.ProjectInvitation",
+                "recipients": {
+                    "0": "dataloop-tester-5-0@dataloop.ai",
+                }
+            }
         }
     },
     "recipients": ["shlomi.s@dataloop.ai"],
@@ -67,4 +101,4 @@ org_input = {
     "notificationId": 1
 }
 
-ServiceRunner().email(notification_input)
+ServiceRunner().email(project_input)
