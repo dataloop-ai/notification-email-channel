@@ -4,6 +4,7 @@ from assets.assetsLoader import AssetsLoader
 from modules.emailCompiler import EmailCompiler
 import dtlpy as dl
 from modules.notificationInfo import NotificationResourceType, ApplicationInput
+from datetime import datetime, timedelta
 
 
 class NotificationEmailCompiler(EmailCompiler):
@@ -39,7 +40,7 @@ class NotificationEmailCompiler(EmailCompiler):
         return [compiled, attachments]
 
     def insert_log_link(self, link_prefix: str,
-                        compiled_html: str, service: str=None):
+                        compiled_html: str, service: str = None):
         if service is not None:
             log_link = link_prefix + "/faas/logs?serviceId={0}".format(service)
             compiled_html = compiled_html.replace('$$ServiceLogsLink$$',
@@ -60,7 +61,7 @@ class NotificationEmailCompiler(EmailCompiler):
         return compiled_html
 
     def insert_model_link(self, link_prefix: str,
-                            compiled_html: str, model: str = None):
+                          compiled_html: str, model: str = None):
         if model is not None:
             model_link = link_prefix + "/model/{0}".format(model)
             resource_name = self.get_resource_name(model, self.get_model, NotificationResourceType.MODELS)
@@ -70,11 +71,16 @@ class NotificationEmailCompiler(EmailCompiler):
             self.replaced_links['$$ModelLink$$'] = True
         return compiled_html
 
-    def insert_executions_link(self, link_prefix: str,
+    def insert_executions_link(self,
+                               link_prefix: str,
                                compiled_html: str,
-                               service: str=None):
-        if service is not None:
-            executions_link = link_prefix + "/executions?serviceId={0}".format(service)
+                               service: str = None,
+                               execution: dl.Execution = None):
+        if service is not None and execution is not None:
+            dt = datetime.strptime(execution.updated_at, "%Y-%m-%dT%H:%M:%S.%fZ")
+            dt_adjusted = dt - timedelta(seconds=30)
+            timestamp_ms_adjusted = int(dt_adjusted.timestamp() * 1000)
+            executions_link = f"{link_prefix}/cloudops?tab=executions&page=1&sortBy=createdAt&descending=true&status=failed&service.id={service}&updatedAt[$gt]={timestamp_ms_adjusted}"
             compiled_html = compiled_html.replace('$$ServiceExecutionsLink$$',
                                                   '<div><span style="color: #171723; padding-right: 2px;">Executions:</span><a href={0}>Service Executions</a></div>'.format(
                                                       executions_link))
@@ -83,7 +89,7 @@ class NotificationEmailCompiler(EmailCompiler):
 
     def insert_pipeline_link(self, link_prefix: str,
                              compiled_html: str,
-                             pipeline: str=None):
+                             pipeline: str = None):
         if pipeline is not None:
             pipeline_link = link_prefix + "/pipelines/{}".format(pipeline)
             resource_name = self.get_resource_name(pipeline, self.get_pipeline, NotificationResourceType.PIPELINES)
@@ -164,6 +170,7 @@ class NotificationEmailCompiler(EmailCompiler):
                 )
             elif resource_type == NotificationResourceType.EXECUTIONS:
                 service = self.application_input.get_service()
+                execution = dl.executions.get(execution_id=self.application_input.get_resource_id())
                 compiled = self.insert_service_link(
                     link_prefix=link_prefix,
                     compiled_html=compiled,
@@ -172,7 +179,8 @@ class NotificationEmailCompiler(EmailCompiler):
                 compiled = self.insert_executions_link(
                     link_prefix=link_prefix,
                     compiled_html=compiled,
-                    service=service
+                    service=service,
+                    execution=execution
                 )
                 compiled = self.insert_model_link(
                     link_prefix=link_prefix,
