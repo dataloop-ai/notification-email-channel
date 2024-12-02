@@ -80,14 +80,13 @@
         "botUserName": "pipelines@dataloop.ai",
         "runtime": {
           "podType": "regular-xs",
-          "numReplicas": 1,
           "concurrency": 10,
           "pyPackages": {},
           "runnerImage": "gcr.io/viewo-g/piper/agent/runner/cpu/node14:latest",
           "singleAgent": false,
           "autoscaler": {
             "type": "rabbitmq",
-            "minReplicas": 1,
+            "minReplicas": 0,
             "maxReplicas": 10,
             "queueLength": 10
           },
