@@ -1,4 +1,5 @@
 from modules.emailCompiler import EmailCompiler
+from modules.inviteCompiler.utils import InviteCompilerUtils
 from modules.notificationInfo import ApplicationInput, EmailTemplate
 
 
@@ -12,6 +13,11 @@ class ProjectInviteCompiler(EmailCompiler):
         if self.project_id is None:
             raise ValueError('project_id is None')
         self.contributor = self.get_contributor(user_id=self.user_id, project_id=self.project_id)
+        self.redirect_link = InviteCompilerUtils.generate_redirect_link(
+            body=self.application_input.notification_info.body,
+            env_prefix=self.env_prefix,
+            base_path='projects'
+        )
 
     @staticmethod
     def api_role_to_display_role(api_role):
@@ -28,9 +34,8 @@ class ProjectInviteCompiler(EmailCompiler):
         params = [
             {"name": "userEmail", "value": self.user_id},
             {"name": "role", "value": role},
-            {"name": "domain", "value": self.env_prefix},
             {"name": "projectName", "value": self.application_input.notification_info.body.get('name', None) or 'Unknown name'},
-            {"name": "projectId", "value": self.application_input.notification_info.body.get('id', None) or 'Unknown id'}
+            {"name": "redirectLink", "value": self.redirect_link}
         ]
         for param in params:
             compiled = compiled.replace('##{0}##'.format(param['name']), param['value'])

@@ -1,7 +1,7 @@
 from modules.notificationEmailCompiler import NotificationEmailCompiler
 from modules.notificationInfo import EmailTemplate
-from modules.orgInviteCompiler import OrgInviteCompiler
-from modules.projectInviteCompiler import ProjectInviteCompiler
+from modules.inviteCompiler.orgInviteCompiler import OrgInviteCompiler
+from modules.inviteCompiler.projectInviteCompiler import ProjectInviteCompiler
 
 
 class CompilerFactory:
