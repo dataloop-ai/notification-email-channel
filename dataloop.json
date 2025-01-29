@@ -54,6 +54,7 @@
       {
         "name": "dataloop-email-channel",
         "entryPoint": "main.py",
+        "initInputs": [],
         "functions": [
           {
             "name": "email",
