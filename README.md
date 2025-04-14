@@ -39,14 +39,21 @@ The `Notification Email Channel` app allows Dataloop users to set up dedicated e
 
 ## **Setup & Installation**
 
-Clone the repository and install the app:
+### Follow the steps below to set up and install the application:  
+#### 1. Clone the repository
 
 ```bash
 git clone https://github.com/dataloop-ai-apps/notification-email-channel.git
 cd notification-email-channel
 ```
+#### 2. Configure the application
+Open the `dataloop.json` file and update the following fields:
 
-Publish and install the application using the Dataloop CLI:
+- **`name`**: A unique identifier for your app.  
+- **`displayName`**: A human-readable name for the app.  
+- **`context`**: Update this section to reflect your project's configuration.
+
+#### 3. Publish and install the application using the Dataloop CLI:
 
 ```bash
 dlp app publish --project-name <PROJECT_NAME>
@@ -59,9 +66,20 @@ Replace `<PROJECT_NAME>` with your project's name and `<DPK_ID>` with the specif
 
 ## **Usage**
 
-Once installed, the email notification channel automatically integrates with your Dataloop subscriptions. Notifications will be delivered directly to the configured email address.
+Once installed, the Email Notification Channel automatically integrates with your Dataloop subscriptions.  
+Notifications will be delivered directly to the configured email address.
 
-For more detailed instructions, visit the [Dataloop Documentation](https://docs.dataloop.ai/docs/modality).
+### Features
+
+- 📬 **Receive Notifications**  
+  Automatically receive real-time notifications based on your project's subscriptions.
+
+- ✏️ **Create or Update the Notification**  
+  You can also manually create or update the email notification channel via the Dataloop SDK to customize behavior.
+
+### Additional Resources  
+
+For detailed usage instructions and examples, please refer to the [Dataloop Documentation](https://docs.dataloop.ai/docs/customized-notifications).
 
 ---
 
