@@ -2,6 +2,8 @@ class InviteCompilerUtils:
     @staticmethod
     def generate_redirect_link(body, env_prefix, base_path):
         is_user_registered = InviteCompilerUtils.get_body_param(body, 'isUserRegistered', default=False)
+        
+        # workaround for the case when the parameter is a string
         if isinstance(is_user_registered, str):
             is_user_registered = is_user_registered.lower() == 'true'
         if is_user_registered:
