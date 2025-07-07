@@ -10,6 +10,7 @@ class InviteCompilerUtils:
             return InviteCompilerUtils.redirect_resource(body, env_prefix, base_path)
         return InviteCompilerUtils.redirect_signup(body, env_prefix, base_path)
 
+    @staticmethod
     def get_body_param(body, key, default=None):
         return body.get(key, default)
 
