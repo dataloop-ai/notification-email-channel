@@ -83,7 +83,7 @@
           "podType": "regular-xs",
           "concurrency": 10,
           "pyPackages": {},
-          "runnerImage": "gcr.io/viewo-g/piper/agent/runner/cpu/node16:latest",
+          "runnerImage": "gcr.io/viewo-g/piper/agent/runner/cpu/node14-py10:latest",
           "singleAgent": false,
           "autoscaler": {
             "type": "rabbitmq",

@@ -1,4 +1,4 @@
-FROM gcr.io/viewo-g/piper/agent/runner/cpu/main:1.74.1.1
+FROM gcr.io/viewo-g/piper/agent/runner/cpu/main:1.111.11.0
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get update && apt-get install -y nodejs
