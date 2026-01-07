@@ -52,6 +52,7 @@ Open the `dataloop.json` file and update the following fields:
 - **`name`**: A unique identifier for your app.  
 - **`displayName`**: A human-readable name for the app.  
 - **`context`**: Update this section to reflect your project's configuration.
+- **`botUserName`**: Update this with the super user bot email (p*******@)
 
 #### 3. Publish and install the application using the Dataloop CLI:
 

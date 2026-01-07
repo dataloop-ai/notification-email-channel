@@ -78,7 +78,7 @@
         "packageName": "default-package",
         "packageRevision": "latest",
         "secrets": null,
-        "botUserName": "pipelines@dataloop.ai",
+        "botUserName": "", 
         "runtime": {
           "podType": "regular-xs",
           "concurrency": 10,
