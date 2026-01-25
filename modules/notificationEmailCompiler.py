@@ -1,6 +1,3 @@
-import base64
-
-from assets.assetsLoader import AssetsLoader
 from modules.emailCompiler import EmailCompiler
 import dtlpy as dl
 from modules.notificationInfo import NotificationResourceType, ApplicationInput
@@ -13,38 +10,13 @@ class NotificationEmailCompiler(EmailCompiler):
 
         self.replaced_links = dict()
 
-    def build_icon_attachment(self):
-        priority = self.application_input.get_priority()
-        icon_image_id = 'notification_icon'
-        if priority <= 50:
-            icon_file = AssetsLoader.get_info_icon()
-        elif priority <= 75:
-            icon_file = AssetsLoader.get_warning_icon()
-        else:
-            icon_file = AssetsLoader.get_error_icon()
-
-        dataloop_logo_base64_utf8_str = base64.b64encode(icon_file).decode('utf-8')
-        return {
-            "filename": "notification-icon-dataloop",
-            "contentType": "image/png",
-            "content_id": icon_image_id,
-            "content": dataloop_logo_base64_utf8_str,
-            "disposition": "inline"
-        }
-
-    def append_attachments(self, compiled):
-        [compiled, attachments] = super().append_attachments(compiled)
-        icon_attachment = self.build_icon_attachment()
-        attachments.append(icon_attachment)
-        compiled = compiled.replace('@@notificationIcon@@', 'cid:' + icon_attachment['content_id'])
-        return [compiled, attachments]
 
     def insert_log_link(self, link_prefix: str,
                         compiled_html: str, service: str = None):
         if service is not None:
             log_link = link_prefix + "/faas/logs?serviceId={0}".format(service)
             compiled_html = compiled_html.replace('$$ServiceLogsLink$$',
-                                                  '<div><span style="color: #171723; padding-right: 2px;">Logs:</span><a href={0}>Service Logs</a></div>'.format(
+                                                  '<tr><td style="width: 79px; padding-bottom: 16px;"><span style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 500; font-size: 14px; line-height: 20px; color: #333333;">Logs:</span></td><td style="padding-bottom: 16px;"><a href="{0}" style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #0062AB;">Service Logs</a></td></tr>'.format(
                                                       log_link))
             self.replaced_links['$$ServiceLogsLink$$'] = True
         return compiled_html
@@ -55,7 +27,7 @@ class NotificationEmailCompiler(EmailCompiler):
             service_link = link_prefix + "/services/{0}".format(service)
             resource_name = self.get_resource_name(service, self.get_service, NotificationResourceType.SERVICES)
             compiled_html = compiled_html.replace('$$ServiceLink$$',
-                                                  '<div><span style="color: #171723; padding-right: 2px;">Service:</span><a href={0}>{1}</a></div>'.format(
+                                                  '<tr><td style="width: 79px; padding-bottom: 16px;"><span style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 500; font-size: 14px; line-height: 20px; color: #333333;">Service:</span></td><td style="padding-bottom: 16px;"><a href="{0}" style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #0062AB;">{1}</a></td></tr>'.format(
                                                       service_link, resource_name))
             self.replaced_links['$$ServiceLink$$'] = True
         return compiled_html
@@ -66,7 +38,7 @@ class NotificationEmailCompiler(EmailCompiler):
             model_link = link_prefix + "/model/{0}".format(model)
             resource_name = self.get_resource_name(model, self.get_model, NotificationResourceType.MODELS)
             compiled_html = compiled_html.replace('$$ModelLink$$',
-                                                  '<div><span style="color: #171723; padding-right: 2px;">Model:</span><a href={0}>{1}</a></div>'.format(
+                                                  '<tr><td style="width: 79px; padding-bottom: 16px;"><span style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 500; font-size: 14px; line-height: 20px; color: #333333;">Model:</span></td><td style="padding-bottom: 16px;"><a href="{0}" style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #0062AB;">{1}</a></td></tr>'.format(
                                                       model_link, resource_name))
             self.replaced_links['$$ModelLink$$'] = True
         return compiled_html
@@ -82,7 +54,7 @@ class NotificationEmailCompiler(EmailCompiler):
             timestamp_ms_adjusted = int(dt_adjusted.timestamp() * 1000)
             executions_link = f"{link_prefix}/cloudops?tab=executions&page=1&sortBy=createdAt&descending=true&status=failed&service.id={service}&updatedAt[$gt]={timestamp_ms_adjusted}"
             compiled_html = compiled_html.replace('$$ServiceExecutionsLink$$',
-                                                  '<div><span style="color: #171723; padding-right: 2px;">Executions:</span><a href={0}>Service Executions</a></div>'.format(
+                                                  '<tr><td style="width: 79px; padding-bottom: 16px;"><span style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 500; font-size: 14px; line-height: 20px; color: #333333;">Executions:</span></td><td style="padding-bottom: 16px;"><a href="{0}" style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #0062AB;">Service Executions</a></td></tr>'.format(
                                                       executions_link))
             self.replaced_links['$$ServiceExecutionsLink$$'] = True
         return compiled_html
@@ -94,7 +66,7 @@ class NotificationEmailCompiler(EmailCompiler):
             pipeline_link = link_prefix + "/pipelines/{}".format(pipeline)
             resource_name = self.get_resource_name(pipeline, self.get_pipeline, NotificationResourceType.PIPELINES)
             compiled_html = compiled_html.replace('$$PipelineLink$$',
-                                                  '<div><span style="color: #171723; padding-right: 2px;">Pipeline:</span><a href={0}>{1}</a></div>'.format(
+                                                  '<tr><td style="width: 79px; padding-bottom: 16px;"><span style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 500; font-size: 14px; line-height: 20px; color: #333333;">Pipeline:</span></td><td style="padding-bottom: 16px;"><a href="{0}" style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #0062AB;">{1}</a></td></tr>'.format(
                                                       pipeline_link, resource_name))
             self.replaced_links['$$PipelineLink$$'] = True
         return compiled_html
@@ -106,7 +78,7 @@ class NotificationEmailCompiler(EmailCompiler):
             task_link = link_prefix + "/tasks/{0}/assignments".format(task)
             resource_name = self.get_resource_name(task, self.get_task, NotificationResourceType.TASKS)
             compiled_html = compiled_html.replace('$$TaskLink$$',
-                                                  '<div><span style="color: #171723; padding-right: 2px;">Task:</span><a href={0}>{1}</a></div>'.format(
+                                                  '<tr><td style="width: 79px; padding-bottom: 16px;"><span style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 500; font-size: 14px; line-height: 20px; color: #333333;">Task:</span></td><td style="padding-bottom: 16px;"><a href="{0}" style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #0062AB;">{1}</a></td></tr>'.format(
                                                       task_link, resource_name))
             self.replaced_links['$$TaskLink$$'] = True
         return compiled_html
@@ -124,7 +96,7 @@ class NotificationEmailCompiler(EmailCompiler):
         assignments_link = link_prefix + "/assignments/{0}/items".format(assignment)
         assignment_name = self.get_resource_name(assignment, self.get_assignment, NotificationResourceType.ASSIGNMENTS)
         compiled_html = compiled_html.replace('$$AssignmentLink$$',
-                                              '<div><span style="color: #171723; padding-right: 2px;">Assignment:</span><a href={0}>{1}</a></div>'.format(
+                                              '<tr><td style="width: 79px; padding-bottom: 16px;"><span style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 500; font-size: 14px; line-height: 20px; color: #333333;">Assignment:</span></td><td style="padding-bottom: 16px;"><a href="{0}" style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #0062AB;">{1}</a></td></tr>'.format(
                                                   assignments_link, assignment_name))
         self.replaced_links['$$AssignmentLink$$'] = True
         return compiled_html
@@ -133,7 +105,7 @@ class NotificationEmailCompiler(EmailCompiler):
         project_link_prefix = self.env_prefix + "projects/"
         project_name = self.get_resource_name(project, self.get_project)
         compiled_html = compiled_html.replace('$$ProjectLink$$',
-                                              '<div><span style="color: #171723; padding-right: 2px;">Project:</span><a href={0}>{1}</a></div>'.format(
+                                              '<tr><td style="width: 79px; padding-bottom: 16px;"><span style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 500; font-size: 14px; line-height: 20px; color: #333333;">Project:</span></td><td style="padding-bottom: 16px;"><a href="{0}" style="font-family: \'Roboto\', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #0062AB;">{1}</a></td></tr>'.format(
                                                   project_link_prefix + project, project_name))
         self.replaced_links['$$ProjectLink$$'] = True
         link_prefix = project_link_prefix + project

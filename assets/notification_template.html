@@ -5,134 +5,121 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
-    <title>confirmation email</title>
+    <title>Action Required: Platform Notifications</title>
     <style type="text/css">
-        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-        .body{
+        * {
             margin: 0;
-            width: 860px;
-            height: 750px;
-            font-family: Roboto;
+            padding: 0;
         }
-        .email-notification-body{
-            font-weight: 400;
-            position: absolute;
-            margin-left:50px;
-            color:black !important;
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif !important;
+            background-color: #F8F8F8 !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
-        .mail-body{
-            width:660px;
-            height: 750px;
-            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-            background: #FFFFFF;
-            padding: 50px;
+
+        table {
+            border-collapse: collapse !important;
+            border-spacing: 0 !important;
         }
-        .mail-header{
-            display: block;
-            margin-bottom: 40px;
+
+        table,
+        tr,
+        td {
+            border: none !important;
+            outline: none !important;
         }
-        .mail-header-img{
-            display: inline-block;
-            width: 127px ;
-        }
-        .mail-title{
-            margin-bottom: 30px;
-        }
-        .mail-title-head{
-            font-size: 30px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color:black !important;
-        }
-        .mail-title-content{
-            color:#171723;
-            font-size: 14px;
-            white-space: pre-wrap
-        }
-        .mail-next-date-display-none{
-            display: none;
-        }
-        .mail-notes{
-            font-size: 12px;
-            color:#767676;
-            line-height: 20px;
-        }
-        .mail-separator{
-            width:85%;
-            border: 1px solid #E4E4E4;
-        }
-        .mail-end{
-            color:#999999;
-            font-size: 12px;
-        }
-        a{
-            color:#516AFF;
-            text-decoration:none;
-        }
-        .mail-links{
-            margin-bottom: 40px;
-        }
-        .link-title {
-            margin-bottom: 10px;
-            color: #171723;
-        }
-        .contact-support {
-            margin-bottom: 15px;
-        }
-        .manage-subscriptions {
-            margin-bottom: 270px;
-        }
-        .pad-left {
-            padding-left: 34px;
-        }
-        .notification-icon{
-            display: inline-block;
-            height: 24px;
-            width: 24px;
+
+        a {
+            text-decoration: none !important;
         }
     </style>
 </head>
 
-<body dir="ltr" class="body" background="#F4F6FB" style="background-color: #F4F6FB;">
-    <div class="email-notification-body">
-        <div class="mail-body">
-            <div class="mail-header">
-                <img class ="mail-header-img" src="@@logo@@" alt="logo" />
-            </div>
-            <div class="mail-title">
-                <div class="mail-title-head">
-                    <img class="notification-icon" src="@@notificationIcon@@" alt="notification icon" />
-                    <span>##title##</span>
-                </div>
-                <div class="mail-title-content pad-left">##description##</div>
-            </div>
-            <div class="mail-links pad-left">
-                <div class="link-title">
-                    For more information, please follow the provided links:
-                </div>
-                $$ProjectLink$$
-                $$ServiceLink$$
-                $$ServiceLogsLink$$
-                $$ServiceExecutionsLink$$
-                $$PipelineLink$$
-                $$TaskLink$$
-                $$AssignmentLink$$
-                $$ModelLink$$
-            </div>
-            <div class="contact-support pad-left">
-                For any further assistance or inquiries, please open a support ticket <a href="https://dataloop.ai/salesforce-form">here</a>.
-            </div>
-            <div class="manage-subscriptions pad-left">
-                To manage your subscriptions, please refer to our documentation <a href="https://dataloop.ai/docs/notification-system#manage-notifications-subscription">here</a>. To customize the global notification settings of your organization (for managers only), click <a href="https://dataloop.ai/docs/org-setup#organization-overview-noc">here</a>.
-            </div>
-            <div class="mail-separator"></div>
-            <div class="mail-end">This message was generated automatically. Please do not reply to this email.</div>
-        </div>
-    </div>
+<body style="background-color: #F8F8F8; padding: 50px 0; margin: 0; font-family: 'Roboto', Arial, sans-serif;">
+    <table width="920" cellpadding="0" cellspacing="0" style="width: 920px; margin: 0 auto; background-color: #FFFFFF;">
+        <!-- Header -->
+        <tr>
+            <td style="background-color: #0076CE; padding: 16px 24px; height: 30px;">
+                <span style="font-family: 'Roboto', Arial, sans-serif; font-weight: 400; font-size: 18px; line-height: 30px; letter-spacing: 0.08em; color: #FFFFFF;">Dataloop</span>
+            </td>
+        </tr>
+        
+        <!-- Main Content -->
+        <tr>
+            <td style="padding: 24px;">
+                <!-- Title -->
+                <table width="872" cellpadding="0" cellspacing="0" style="width: 872px; margin-bottom: 24px;">
+                    <tr>
+                        <td>
+                            <span style="font-family: 'Roboto', Arial, sans-serif; font-weight: 500; font-size: 18px; line-height: 140%; color: #333333;">##title##</span>
+                        </td>
+                    </tr>
+                </table>
+                
+                <!-- Description -->
+                <table width="872" cellpadding="0" cellspacing="0" style="width: 872px; margin-bottom: 24px;">
+                    <tr>
+                        <td>
+                            <span style="font-family: 'Roboto', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #4D4D4D;">##description##</span>
+                        </td>
+                    </tr>
+                </table>
+                
+                <!-- Links Section Header -->
+                <table width="872" cellpadding="0" cellspacing="0" style="width: 872px; margin-bottom: 16px;">
+                    <tr>
+                        <td>
+                            <span style="font-family: 'Roboto', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #4D4D4D;">For more information, please follow the provided links:</span>
+                        </td>
+                    </tr>
+                </table>
+                
+                <!-- Links Table -->
+                <table width="872" cellpadding="0" cellspacing="0" style="width: 872px; margin-bottom: 24px;">
+                    $$ProjectLink$$
+                    $$ServiceLink$$
+                    $$ServiceExecutionsLink$$
+                    $$ServiceLogsLink$$
+                    $$PipelineLink$$
+                    $$TaskLink$$
+                    $$AssignmentLink$$
+                    $$ModelLink$$
+                </table>
+                
+                <!-- Footer Text -->
+                <table width="872" cellpadding="0" cellspacing="0" style="width: 872px; margin-bottom: 16px;">
+                    <tr>
+                        <td>
+                            <span style="font-family: 'Roboto', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #757575;">For any further assistance or inquiries, please open a <a href="https://dataloop.ai/salesforce-form" style="color: #0076CE; text-decoration: underline;">Support ticket</a>.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span style="font-family: 'Roboto', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #757575;">To manage your subscriptions, please refer to our <a href="https://dataloop.ai/docs/notification-system#manage-notifications-subscription" style="color: #0076CE; text-decoration: underline;">Documentation</a>. To customize the global notification settings of your organization (for managers only), <a href="https://dataloop.ai/docs/org-setup#organization-overview-noc" style="color: #0076CE; text-decoration: underline;">Click here</a>.</span>
+                        </td>
+                    </tr>
+                </table>
+                
+                <!-- Separator and Auto-generated Message -->
+                <table width="872" cellpadding="0" cellspacing="0" style="width: 872px;">
+                    <tr>
+                        <td style="border-top: 1px solid #C5C5C5; padding-top: 16px;">
+                            <span style="font-family: 'Roboto', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #757575;">This message was generated automatically. Please do not reply to this email.</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- Copyright Footer -->
+        <tr>
+            <td style="padding: 24px; text-align: center; background-color: #F8F8F8;">
+                <span style="font-family: 'Roboto', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 20px; color: #616161;">Copyright 2025 Dell Inc. or its subsidiaries. All Rights Reserved.</span>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>
