@@ -38,7 +38,7 @@ class ProjectInviteCompiler(EmailCompiler):
             {"name": "redirectLink", "value": self.redirect_link}
         ]
         for param in params:
-            compiled = compiled.replace('##{0}##'.format(param['name']), param['value'])
+            compiled = compiled.replace('##{}##'.format(param['name']), param['value'])
         return compiled
 
     def replace_avatar(self, compiled):
