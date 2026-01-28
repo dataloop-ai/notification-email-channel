@@ -1,6 +1,6 @@
 {
   "id": "2",
-  "version": "1.0.50",
+  "version": "1.0.51",
   "name": "dataloop-email-channel",
   "displayName": "dataloop-email-channel",
   "description": "dataloop notifications email channel",
@@ -11,7 +11,7 @@
   "codebase": {
     "type": "git",
     "gitUrl": "https://github.com/dataloop-ai/notification-email-channel",
-    "gitTag": "v1.0.50"
+    "gitTag": "v1.0.51"
   },
   "scope": "organization",
   "components": {
@@ -78,7 +78,7 @@
         "packageName": "default-package",
         "packageRevision": "latest",
         "secrets": null,
-        "botUserName": "",
+        "botUserName": "pipelines@dataloop.ai",
         "runtime": {
           "podType": "regular-xs",
           "concurrency": 10,
