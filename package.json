@@ -10,7 +10,7 @@
     "patch": "./patch.sh"
   },
   "dependencies": {
-    "pdfjs-dist": "^3.1.81",
+    "pdfjs-dist": "^4.4.168",
     "vue": "^3.2.37"
   },
   "devDependencies": {

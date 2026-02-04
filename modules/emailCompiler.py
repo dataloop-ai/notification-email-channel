@@ -20,28 +20,8 @@ class EmailCompiler(ABC):
             self.env_prefix += '/'
         self.default_avatar = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
 
-    @staticmethod
-    def build_logo_attachment():
-        image_id = 'logo'
-        logo_file_content = AssetsLoader.get_logo()
-        logo_base64_utf8_str = base64.b64encode(logo_file_content).decode('utf-8')
-        return {
-            "filename": "logo",
-            "contentType": "image/png",
-            "content_id": image_id,
-            "content": logo_base64_utf8_str,
-            "disposition": "inline"
-        }
-
-    def append_logo_attachment(self, compiled):
-        attachments = []
-        logo_attachment = self.build_logo_attachment()
-        attachments.append(logo_attachment)
-        compiled = compiled.replace('@@logo@@', 'cid:'+logo_attachment['content_id'])
-        return [compiled, attachments]
-
     def append_attachments(self, compiled):
-        [compiled, attachments] = self.append_logo_attachment(compiled)
+        attachments = []
         return [compiled, attachments]
 
     @abstractmethod
