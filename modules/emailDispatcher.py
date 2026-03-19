@@ -4,9 +4,9 @@ import dtlpy as dl
 class EmailDispatcher:
     @staticmethod
     def dispatch(application_input, compiled_html, attachments):
-        title = '[Dataloop] ' + str(application_input.get_title()).title()
+        title = '[DDOE] ' + str(application_input.get_title()).title()
         from_sender = 'notifications@dataloop.ai'
-        from_name = 'Dataloop Notifications'
+        from_name = 'DDOE Notifications'
         req_data = {
             "to": application_input.recipients,
             "from": from_sender,
