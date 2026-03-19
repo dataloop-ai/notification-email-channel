@@ -3,11 +3,8 @@ import json
 import dtlpy as dl
 
 # Load environment variables from .env file if it exists
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    pass  # python-dotenv not installed, use system env vars
+from dotenv import load_dotenv
+load_dotenv()
 
 # Replace placeholder in dataloop.json with actual value
 bot_username = os.getenv('BOT_USERNAME', None)
@@ -26,7 +23,7 @@ try:
             f.write(content)
 
     dl.setenv('rc')
-    # dl.login()
+    dl.login()
     p = dl.projects.get(project_id='f8a4b8ce-5ff3-4386-84dc-1bda3a5bc92a')
     d = p.dpks.publish()
 
