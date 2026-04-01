@@ -22,9 +22,9 @@ try:
         with open('./dataloop.json', 'w') as f:
             f.write(content)
 
-    dl.setenv('rc')
+    dl.setenv('prod')
     dl.login()
-    p = dl.projects.get(project_id='f8a4b8ce-5ff3-4386-84dc-1bda3a5bc92a')
+    p = dl.projects.get(project_name='DataloopTasks')
     d = p.dpks.publish()
 
 finally:
