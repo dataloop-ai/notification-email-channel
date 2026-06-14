@@ -22,9 +22,9 @@ try:
         with open('./dataloop.json', 'w') as f:
             f.write(content)
 
-    dl.setenv('ford')
+    dl.setenv('syngenta')
     # dl.login()
-    p = dl.projects.get(project_id='80138ed5-169a-4be1-9603-b5e13832e55d')
+    p = dl.projects.get(project_id='742ab768-4cb2-45ee-bdf2-d7efe1c71a66')
     d = p.dpks.publish()
 
 finally:
