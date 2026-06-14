@@ -1,6 +1,6 @@
 {
   "id": "2",
-  "version": "1.0.65",
+  "version": "1.0.66",
   "name": "dataloop-email-channel",
   "displayName": "dataloop-email-channel",
   "description": "dataloop notifications email channel",
@@ -11,7 +11,7 @@
   "codebase": {
     "type": "git",
     "gitUrl": "https://github.com/dataloop-ai/notification-email-channel",
-    "gitTag": "v1.0.65"
+    "gitTag": "v1.0.66"
   },
   "scope": "organization",
   "components": {
@@ -108,8 +108,8 @@
     "snapshots": []
   },
   "context": {
-    "project": "742ab768-4cb2-45ee-bdf2-d7efe1c71a66",
-    "org": "a6e720f1-7485-406b-b1a2-941af75a134e"
+    "project": "f8a4b8ce-5ff3-4386-84dc-1bda3a5bc92a",
+    "org": "d25cecad-34f7-4e38-9750-bd9a1d387bfd"
   },
   "trusted": true
 }
